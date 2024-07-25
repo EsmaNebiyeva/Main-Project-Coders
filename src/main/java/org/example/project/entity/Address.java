@@ -21,6 +21,19 @@ public class Address {
     private String flat;
     private String streetNumber;
     private String postalCode;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<User> users;
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", flat='" + flat + '\'' +
+                ", streetNumber='" + streetNumber + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
 }

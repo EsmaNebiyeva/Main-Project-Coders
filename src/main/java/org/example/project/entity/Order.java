@@ -18,12 +18,26 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String orderId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "user_id")
     private User cashier;
-    @ManyToMany
-    private List<Product> productsOrder;
 
     private Date orderDate;
 
     private String paymentMethod;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderId='" + orderId + '\'' +
+                ", cashier=" + cashier +
+                ", orderDate=" + orderDate +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                '}';
+    }
+    public Order(Date date, String paymentMethod) {
+        this.orderDate = date;
+        this.paymentMethod = paymentMethod;
+    }
 }

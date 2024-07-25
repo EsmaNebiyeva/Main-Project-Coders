@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    void addOrder(Order order);
-    Page<Order> getProducts(Integer page, Integer size);
-    Optional<Order> getOrder(int orderId);
-    void deleteOrder(int orderId);
+    Order addOrder(Order order);
+    Page<Order> getOrders(Integer page, Integer size);
+    Order getOrder(Long orderId);
+    void deleteOrder(Long orderId);
 
 }

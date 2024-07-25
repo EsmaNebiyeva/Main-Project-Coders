@@ -9,10 +9,12 @@ import java.util.Optional;
 
 public interface ProductService {
     void addProduct(Product product);
-    void deleteProduct(Product product);
-    void updateProduct(Product product);
+    boolean deleteProduct(Product product);
+    boolean deleteProductById(Long id);
+    Product updateProduct(Long id,Product product);
     Optional<Product> getProductById(Long id);
     Page<Product> getProducts(Integer page, Integer size);
     List<Product> getProducts();
+    Product updateProductWithCancel(Long id, Product product);
 
 }

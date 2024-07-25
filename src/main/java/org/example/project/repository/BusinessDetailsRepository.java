@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface BusinessDetailsRepository extends JpaRepository<BusinessDetails, Integer> {
+public interface BusinessDetailsRepository extends JpaRepository<BusinessDetails, Long> {
 }

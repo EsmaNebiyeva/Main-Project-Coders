@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -33,20 +30,20 @@ public  class User  {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
     private String role;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Product> products ;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> orders ;
 
     private Date birthDate;
-
+    private Date signUpDate;
+    private String accessType;
     private String gender;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Address address;
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role));
-//    }
+
 
     public User(Long id, String username, String email, String phoneNumber, String password) {
         this.id = id;
@@ -54,5 +51,22 @@ public  class User  {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", birthDate=" + birthDate +
+                ", signUpDate=" + signUpDate +
+                ", accessType='" + accessType + '\'' +
+                ", gender='" + gender + '\'' +
+                ", address=" + address +
+                '}';
     }
 }

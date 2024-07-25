@@ -18,4 +18,11 @@ public class BusinessDetailsServiceImpl implements BusinessDetailsService{
         businessDetailsRepository.save(businessDetails);
         System.out.println("DATA elave olundu");
     }
+
+    @Override
+    public BusinessDetails cancelBusinessDetails(BusinessDetails businessDetails) {
+        BusinessDetails save = businessDetailsRepository.save(this.businessDetailsRepository.findById(businessDetails.getId()).get());
+        System.out.println("DATA elave olundu");
+        return save;
+    }
 }

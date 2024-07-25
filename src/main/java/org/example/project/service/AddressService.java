@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 
 
 public interface AddressService {
-    void saveAddress(Address address);
-    void deleteAddress(Address address);
+    Address saveAddress(Address address);
+    Address deleteAddress(Address address);
 }

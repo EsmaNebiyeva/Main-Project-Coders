@@ -17,6 +17,18 @@ public class BusinessDetails {
     private String number;
     private String businessEmail;
     private String fax;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //(fetch = FetchType.EAGER)
     private User user;
+
+    @Override
+    public String toString() {
+        return "BusinessDetails{" +
+                "id=" + id +
+                ", storeName='" + storeName + '\'' +
+                ", number='" + number + '\'' +
+                ", businessEmail='" + businessEmail + '\'' +
+                ", fax='" + fax + '\'' +
+                '}';
+    }
 }
