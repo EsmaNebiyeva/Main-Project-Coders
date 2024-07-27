@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static ch.qos.logback.core.joran.spi.ConsoleTarget.findByName;
+
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
         System.out.println("DATA elave olundu");
 
     }
+
     @Transactional
     @Override
     public boolean deleteProduct(Product product) {
@@ -36,32 +39,29 @@ public class ProductServiceImpl implements ProductService {
             if (productRepository.existsById(product.getId())) {
                 productRepository.deleteById(product.getId());
             }
-        }
-        catch (OurException e) {
+        } catch (OurException e) {
             System.out.println("Our Exception");
             System.out.println(e.getMessage());
             return false;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
         return true;
     }
+
     @Transactional
     @Override
     public boolean deleteProductById(Long id) {
         try {
-            if (productRepository.existsById(id)){
+            if (productRepository.existsById(id)) {
                 productRepository.deleteById(id);
             }
-        }
-        catch (OurException e) {
+        } catch (OurException e) {
             System.out.println("Our Exception");
             System.out.println(e.getMessage());
             return false;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -70,29 +70,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product updateProduct(Long id,Product product) {
-       try{
-           Optional<Product> ignored =  productRepository.findById(id);
-           if(ignored.isPresent()){
-               ignored.get().setName(product.getName());
-               ignored.get().setPrice(product.getPrice());
-               ignored.get().setReceiptNo(product.getReceiptNo());
-               return ignored.get();
-           }
+    public Product updateProduct(Long id, Product product) {
+        try {
+            Optional<Product> ignored = productRepository.findById(id);
+            if (ignored.isPresent()) {
+                ignored.get().setName(product.getName());
+                ignored.get().setPrice(product.getPrice());
+                ignored.get().setReceiptNo(product.getReceiptNo());
+                return ignored.get();
+            }
 
-       } catch (OurException e) {
-           System.out.println("Our Exception");
-       }
-       catch (Exception e) {
-           System.out.println(e.getMessage());
-       }
+        } catch (OurException e) {
+            System.out.println("Our Exception");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         return product;
     }
 
     @Override
     public Optional<Product> getProductById(Long id) {
-       return productRepository.findById(id);
+        return productRepository.findById(id);
     }
 
     @Override
@@ -108,24 +107,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product updateProductWithCancel(Long id,Product product) {
-        try{
-            Optional<Product> ignored =  productRepository.findById(id);
-            if(ignored.isPresent()){
-                ignored.get().setName(productRepository.findById(id).get().getName());
-                ignored.get().setPrice(productRepository.findById(id).get().getPrice());
-                ignored.get().setReceiptNo(productRepository.findById(id).get().getReceiptNo());
-                return ignored.get();
+    public Product updateProductWithCancel(Long id, Product product) {
+        try {
+            Optional<Product> ignored = productRepository.findById(id);
+            if (ignored.isPresent()) {
+                ignored.get().setName(ignored.get().getName());
+                ignored.get().setPrice(ignored.get().getPrice());
+                ignored.get().setReceiptNo(ignored.get().getReceiptNo());
+               productRepository.save(ignored.get());
             }
 
         } catch (OurException e) {
             System.out.println("Our Exception");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         return product;
     }
 
+    @Override
+    public List<Product> getProductByName(String name) {
+            List<Product> products = productRepository.findByName(name);
+            return products;
+    }
 }

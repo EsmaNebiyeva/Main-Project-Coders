@@ -16,5 +16,6 @@ public interface ProductService {
     Page<Product> getProducts(Integer page, Integer size);
     List<Product> getProducts();
     Product updateProductWithCancel(Long id, Product product);
+    List<Product> getProductByName(String name);
 
 }

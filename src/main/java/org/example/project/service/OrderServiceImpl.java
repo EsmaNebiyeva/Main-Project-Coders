@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,8 +55,14 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void deleteOrder(Long orderId) {
-        orderRepository.deleteById(orderId);
-        System.out.println("DATA silindi");
+       try {
+           if (orderId != null) {
+               orderRepository.deleteById(orderId);
+               System.out.println("DATA silindi");
+           }
+       } catch (Exception e) {
+           System.out.println("Order id is null && Order is not found");
+       }
 
     }
 }

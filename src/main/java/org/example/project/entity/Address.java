@@ -36,4 +36,7 @@ public class Address {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
+    public Address(String city){
+        this.city = city;
+    }
 }

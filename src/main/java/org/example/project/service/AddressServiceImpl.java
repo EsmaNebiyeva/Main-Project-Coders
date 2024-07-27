@@ -3,10 +3,12 @@ package org.example.project.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.Address;
-import org.example.project.exception.OurException;
+import org.example.project.entity.BusinessDetails;
 import org.example.project.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,21 +19,21 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address saveAddress(Address address) {
-        if (address!= null) {
-            addressRepository.save(address);
-            System.out.println("DATA elave olundu");
-            return address;
-        }
-        throw  new  OurException("address nulldu");
+            Optional<Address> addressOptional = addressRepository.findByCity(address.getCity());
+            if (addressOptional.isPresent()) {
+                Address address1 = addressOptional.get();
+                address1.setCity(address.getCity());
+                address1.setFlat(address.getFlat());
+                return addressRepository.save(address1);
+            } else {
+                return addressRepository.save(address);
+            }
     }
 
-    @Override
-    public Address deleteAddress(Address address) {
-        if (address != null) {
-            addressRepository.delete(address);
-            System.out.println("DATA silindi");
-            return address;
+
+        @Override
+        public Optional<Address> cancelAddress (Address address){
+            return this.addressRepository.findByCity(address.getCity());
         }
-        throw  new  OurException("address nulldu");
     }
-}
+

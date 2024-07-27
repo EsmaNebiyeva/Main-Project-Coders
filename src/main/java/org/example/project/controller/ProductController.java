@@ -86,8 +86,7 @@ public class ProductController {
     }
     @PutMapping("/update")
     public ResponseEntity<Product> updateProduct(@RequestParam Long id,@RequestBody Product product) {
-try {
-
+    try {
     Product product1 = productService.updateProduct(id, product);
     return new ResponseEntity<>(product1, HttpStatus.OK);
 }catch(Exception e){
@@ -95,14 +94,22 @@ try {
 }
 
     }
-    @PutMapping("/cancel/{id}")
-    public ResponseEntity<Product> updateProductWithCancellation(@PathVariable Long id,@RequestBody Product product) {
+    @PutMapping("/cancel")
+    public ResponseEntity<Product> updateProductWithCancellation(@RequestParam Long id,@RequestBody Product product) {
         try {
-            Product product1 = productService.updateProductWithCancel(id, product);
+            Product product1 = this.productService.updateProductWithCancel(id, product);
             return new ResponseEntity<>(product1, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    catch(Exception e){
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String name) {
+        try{
+            List<Product> productByName = productService.getProductByName(name);
+            return new ResponseEntity<>(productByName,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -23,7 +23,7 @@ public class AddressDTO {
     private List<UserDTO> users;
 
 
-    public AddressDTO convertToDto(Address address) {
+    public static AddressDTO convertToDto(Address address) {
         AddressDTO dto = new AddressDTO();
         dto.setCountry(address.getCountry());
         dto.setCity(address.getCity());

@@ -22,7 +22,6 @@ private final EntityManager entityManager;
 private final EntityManagerFactory entityManagerFactory;
 private final ProductController productController;
 private final OrderController orderController;
-private final AddressController addressController;
 private final BusinessDetailsController businessDetailsController;
     public static void main(String[] args) {
         SpringApplication.run(ProjectApplication.class, args);

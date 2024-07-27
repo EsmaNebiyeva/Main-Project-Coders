@@ -1,36 +1,46 @@
 package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.BusinessDetails;
+
+import org.example.project.model.InformationRequest;
+import org.example.project.service.AddressService;
 import org.example.project.service.BusinessDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping("/api/bdc")
+@RequestMapping("/api/general")
 @RequiredArgsConstructor
 public class BusinessDetailsController {
     @Autowired
     private final BusinessDetailsService businessDetailsService;
-    @PostMapping("/save")
-    public ResponseEntity<BusinessDetails> save(@RequestBody BusinessDetails businessDetails) {
-        try{businessDetailsService.saveBusinessDetails(businessDetails);
-        return ResponseEntity.ok(businessDetails);
+    private final AddressService addressService;
+    @PutMapping("/save")
+    public ResponseEntity<InformationRequest> save(@RequestBody InformationRequest informationRequest) {
+        try{
+            businessDetailsService.saveBusinessDetails(informationRequest.getBusinessDetails());
+             addressService.saveAddress(informationRequest.getAddress());
+            return new ResponseEntity<>(informationRequest, HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            System.out.println("Xeta");
+            return new ResponseEntity<>(informationRequest,HttpStatus.BAD_REQUEST);
+
         }
     }
 
     @PutMapping("/cancel")
-    public ResponseEntity<BusinessDetails> cancel(@RequestBody BusinessDetails businessDetails) {
+    public ResponseEntity<String> cancel(@RequestBody InformationRequest informationRequest) {
         try {
-            BusinessDetails businessDetails1 = businessDetailsService.cancelBusinessDetails(businessDetails);
-            return ResponseEntity.ok(businessDetails1);
+            businessDetailsService.cancelBusinessDetails(informationRequest.getBusinessDetails());
+            addressService.cancelAddress(informationRequest.getAddress());
+            return new ResponseEntity<>("Cancel oldu", HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            System.out.println("Northins");
+            return new ResponseEntity<>("Cancel olmadi",HttpStatus.BAD_REQUEST);
         }
     }
 }
