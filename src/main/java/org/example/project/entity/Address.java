@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,7 +24,7 @@ public class Address {
     private String streetNumber;
     private String postalCode;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<User> users;
+    private Set<User> users=new HashSet<>();
 
     @Override
     public String toString() {
@@ -36,7 +38,7 @@ public class Address {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
-    public Address(String city){
-        this.city = city;
-    }
+//    public Address(String city){
+//        this.city = city;
+//    }
 }

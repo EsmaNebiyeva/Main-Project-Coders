@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.project.controller.*;
 import org.example.project.entity.Order;
 import org.example.project.repository.*;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -23,6 +24,8 @@ private final EntityManagerFactory entityManagerFactory;
 private final ProductController productController;
 private final OrderController orderController;
 private final BusinessDetailsController businessDetailsController;
+
+
     public static void main(String[] args) {
         SpringApplication.run(ProjectApplication.class, args);
     }

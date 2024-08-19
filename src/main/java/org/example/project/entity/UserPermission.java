@@ -1,26 +1,26 @@
 package org.example.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
 @RequiredArgsConstructor
+@Data
 @AllArgsConstructor
-public class Account {
+
+public class UserPermission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
-    private String name;
-    private String password;
+    private String username;
     private String email;
-    private Date birthDate;
-    private String gender;
-
-
+    private LocalDateTime created;
+    private String role;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
 }

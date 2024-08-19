@@ -3,8 +3,14 @@ package org.example.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.project.entity.Order;
+import org.example.project.entity.Product;
+import org.example.project.entity.User;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -12,14 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
 
-    private Long id;
+   // private Long id;
     private String orderId;
 
-    private UserDTO cashier;
+    private User cashier;
 
-    private List<ProductDTO> productsOrder;
+    private Set<Product> productsSet;
 
-    private Date orderDate;
+    private LocalDate orderDate=LocalDate.now();
 
     private String paymentMethod;
 

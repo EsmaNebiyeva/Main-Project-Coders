@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.project.entity.Product;
 import org.example.project.model.ProductDTO;
 import org.example.project.service.ProductService;
-import org.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,7 @@ public class ProductController {
         if (productService.deleteProductById(id)) {
             return new ResponseEntity<>("Data silindi", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Data silinmedi", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Data silinmedi", HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping("/delete")
@@ -67,18 +66,14 @@ public class ProductController {
         if (productService.deleteProduct(product )) {
             return new ResponseEntity<>("Data silindi", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Data silinmedi", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Data silinmedi", HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping("/getBy")
-    public ResponseEntity<Optional<ProductDTO>> getProductById(@RequestParam Long id) {
+    public ResponseEntity<ProductDTO> getProductById(@RequestParam Long id) {
        try {
-           Optional<Product> product = productService.getProductById(id);
-           Optional<ProductDTO> productDTO = Optional.of(new ProductDTO());
-           productDTO.get().setId(id);
-           productDTO.get().setName(product.get().getName());
-           productDTO.get().setPrice(product.get().getPrice());
-           return new ResponseEntity<>(productDTO, HttpStatus.OK);
+           ProductDTO product = productService.getProductById(id);
+           return new ResponseEntity<>(product, HttpStatus.OK);
        }
        catch(Exception e){
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -86,10 +81,11 @@ public class ProductController {
     }
     @PutMapping("/update")
     public ResponseEntity<Product> updateProduct(@RequestParam Long id,@RequestBody Product product) {
-    try {
+       try {
     Product product1 = productService.updateProduct(id, product);
     return new ResponseEntity<>(product1, HttpStatus.OK);
-}catch(Exception e){
+      }
+    catch(Exception e){
     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 }
 
@@ -109,7 +105,7 @@ public class ProductController {
             List<Product> productByName = productService.getProductByName(name);
             return new ResponseEntity<>(productByName,HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

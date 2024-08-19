@@ -12,4 +12,5 @@ public interface UserService {
      Optional<User> findByUsername(String username);
      List<User> findAll();
      User addUser(User user);
+     Optional<User> findByEmail(String email);
 }

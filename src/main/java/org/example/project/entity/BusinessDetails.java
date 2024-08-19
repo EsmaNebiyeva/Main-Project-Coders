@@ -17,7 +17,7 @@ public class BusinessDetails {
     private Long id;
     private String storeName;
     private String number;
-    @Column(unique = true)
+    @Column(unique = true,updatable = false)
     private String businessEmail;
     private String fax;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

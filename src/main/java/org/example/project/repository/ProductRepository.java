@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -16,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAll(Pageable pageable);
     @Query("SELECT p FROM Product  p where upper( p.name)=upper(:name)")
     List<Product> findByName(String name);
+    @Query("SELECT p FROM Product  p where upper(p.receiptNo)=upper(:receiptNo)")
+    List<Product> findByReceiptNo(String receiptNo);
 }

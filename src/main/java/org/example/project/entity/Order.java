@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
 @Data
@@ -18,10 +19,16 @@ public class Order {
     private Long id;
     private String orderId;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User cashier;
-
-    private Date orderDate;
+    @ManyToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "orders_products", // Ara tablonun ismi
+            joinColumns = @JoinColumn(name = "orderId"), // Öğrenciye referans
+            inverseJoinColumns = @JoinColumn(name = "products_receiptNo") // Derse referans
+    )
+    private Set<Product> productsSet=new HashSet<>();
+    private LocalDate orderDate= LocalDate.now();
 
     private String paymentMethod;
 
@@ -29,14 +36,11 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", orderId='" + orderId + '\'' +
+              ", orderId='" + orderId +
                 ", cashier=" + cashier +
+                ", products=" + productsSet +
                 ", orderDate=" + orderDate +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 '}';
-    }
-    public Order(Date date, String paymentMethod) {
-        this.orderDate = date;
-        this.paymentMethod = paymentMethod;
     }
 }
