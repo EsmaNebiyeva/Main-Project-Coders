@@ -1,10 +1,10 @@
 package org.example.project.controller;
 
-import lombok.RequiredArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 import org.example.project.model.InformationRequest;
-import org.example.project.service.AddressService;
-import org.example.project.service.BusinessDetailsService;
+import org.example.project.service.general.AddressService;
+import org.example.project.service.general.BusinessDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

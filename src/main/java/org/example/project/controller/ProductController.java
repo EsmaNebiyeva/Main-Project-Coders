@@ -1,16 +1,15 @@
 package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Product;
+import org.example.project.entity.other.Product;
 import org.example.project.model.ProductDTO;
-import org.example.project.service.ProductService;
+import org.example.project.service.other.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -53,6 +52,7 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping("/deleteBy")
     public ResponseEntity<String> deleteProduct(@RequestParam Long id) {
         if (productService.deleteProductById(id)) {
@@ -61,8 +61,9 @@ public class ProductController {
             return new ResponseEntity<>("Data silinmedi", HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteProduct(@RequestBody Product product) {
+    public ResponseEntity<String> deleteProducts(@RequestBody Product product) {
         if (productService.deleteProduct(product )) {
             return new ResponseEntity<>("Data silindi", HttpStatus.OK);
         } else {

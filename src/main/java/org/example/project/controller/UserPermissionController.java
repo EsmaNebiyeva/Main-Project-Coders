@@ -1,9 +1,9 @@
 package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.UserPermission;
+import org.example.project.entity.other.UserPermission;
 import org.example.project.model.UserPermissionDto;
-import org.example.project.service.UserPermissionService;
+import org.example.project.service.other.UserPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

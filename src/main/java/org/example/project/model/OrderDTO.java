@@ -3,13 +3,10 @@ package org.example.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Order;
-import org.example.project.entity.Product;
-import org.example.project.entity.User;
+import org.example.project.entity.other.Product;
+import org.example.project.entity.other.User;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 
@@ -19,7 +16,7 @@ import java.util.Set;
 public class OrderDTO {
 
    // private Long id;
-    private String orderId;
+    private Long orderId;
 
     private User cashier;
 

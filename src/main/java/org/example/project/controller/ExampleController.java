@@ -1,20 +1,5 @@
 package org.example.project.controller;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Product;
-import org.example.project.entity.User;
-import org.example.project.repository.*;
-import org.example.project.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 //@RestController
 //@RequestMapping("/project-java")
 //@RequiredArgsConstructor

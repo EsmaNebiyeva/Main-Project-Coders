@@ -4,15 +4,12 @@ import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Address;
-import org.example.project.entity.Category;
-import org.example.project.entity.Order;
-import org.example.project.entity.Product;
+import org.example.project.entity.other.Category;
+import org.example.project.entity.other.Order;
+import org.example.project.entity.other.Product;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -31,7 +28,7 @@ public class ProductDTO {
     private Long stock;
     private Long tax;
    private Long discount;
-   private Set<Order> ordersSet;
+   private List<Order> ordersSet;
 public  static ProductDTO convertToDto(Product product) {
    ProductDTO productDTO = new ProductDTO();
    productDTO.setId(product.getId());

@@ -1,7 +1,0 @@
-package org.example.project.repository;
-
-import org.example.project.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-}

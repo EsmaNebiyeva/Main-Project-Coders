@@ -3,12 +3,8 @@ package org.example.project.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.User;
-import org.example.project.entity.UserPermission;
 
 import java.time.LocalDateTime;
 

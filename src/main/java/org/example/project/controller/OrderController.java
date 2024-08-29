@@ -2,11 +2,11 @@ package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
 
-import org.example.project.entity.Order;
+import org.example.project.entity.other.Order;
 
 import org.example.project.model.OrderDTO;
 
-import org.example.project.service.OrderService;
+import org.example.project.service.other.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,12 +56,12 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteOrders(@RequestParam String orderId) {
+    public ResponseEntity<String> deleteOrders(@RequestParam  Long id) {
        try{
-            orderService.deleteOrder(orderId);
+            orderService.deleteOrder(id);
             return new ResponseEntity<>("Data Silindi", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Silinmedi",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Silinmedi"+e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,8 +1,8 @@
 package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Account;
-import org.example.project.service.AccountService;
+import org.example.project.entity.other.Account;
+import org.example.project.service.other.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class AccountController {
             accountService.cancelAccount(account);
             return new ResponseEntity<>("Cancel oldu", HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            System.out.println("Northins");
+            System.out.println("Nothing");
             return new ResponseEntity<>("Cancel olmadi", HttpStatus.BAD_REQUEST);
         }
     }
@@ -44,7 +44,7 @@ public class AccountController {
         if (accountService.deleteAccount(account)) {
             return new ResponseEntity<>("Delete oldu", HttpStatus.ACCEPTED);
         }else {
-            return new ResponseEntity<>("Delete oldu", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Delete olmadi", HttpStatus.BAD_REQUEST);
         }
     } catch (Exception e) {
         System.out.println("Delete olmadi");

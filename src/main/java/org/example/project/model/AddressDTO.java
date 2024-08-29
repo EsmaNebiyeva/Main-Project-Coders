@@ -3,10 +3,9 @@ package org.example.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.Address;
+import org.example.project.entity.general.Address;
 
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @RequiredArgsConstructor
