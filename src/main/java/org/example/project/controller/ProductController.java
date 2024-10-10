@@ -241,4 +241,14 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    //alindi
+    @GetMapping("/category")
+    public ResponseEntity<Long> findCategoryCount() {
+       try{
+           Long categoryCount = productService.getCategoryCount();
+           return new ResponseEntity<>(categoryCount, HttpStatus.OK);
+       }catch (Exception e){
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+       }
+    }
 }

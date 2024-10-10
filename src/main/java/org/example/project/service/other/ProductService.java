@@ -17,5 +17,6 @@ public interface ProductService {
     Product updateProductWithCancel(Long id, Product product);
     List<Product> getProductByName(String name);
     Boolean existsProductByReceiptNo(String receiptNo);
+    Long getCategoryCount();
 
 }

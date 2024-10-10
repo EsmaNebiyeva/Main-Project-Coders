@@ -206,4 +206,9 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
             return false;
         }
     }
+
+    @Override
+    public Long getCategoryCount() {
+        return productRepository.findDistinctCategoryCount();
+    }
 }
