@@ -18,6 +18,7 @@ public class BusinessDetailsController {
     @Autowired
     private final BusinessDetailsService businessDetailsService;
     private final AddressService addressService;
+    //alindi
     @PutMapping("/save")
     public ResponseEntity<InformationRequest> save(@RequestBody InformationRequest informationRequest) {
         try{
@@ -31,7 +32,7 @@ public class BusinessDetailsController {
 
         }
     }
-
+//alindi
     @PutMapping("/cancel")
     public ResponseEntity<String> cancel(@RequestBody InformationRequest informationRequest) {
         try {

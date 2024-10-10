@@ -2,6 +2,7 @@ package org.example.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Account;
+import org.example.project.model.AccountDto;
 import org.example.project.service.other.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,8 @@ public class AccountController {
     private final AccountService accountService;
 
     @PutMapping("/save")
-    public ResponseEntity<Account> save(@RequestBody Account account) {
+    public ResponseEntity<AccountDto> save(@RequestBody AccountDto account) {
+
         try {
             accountService.saveAccount(account);
 
@@ -29,7 +31,7 @@ public class AccountController {
     }
 
     @PutMapping("/cancel")
-    public ResponseEntity<String> cancel(@RequestBody Account account) {
+    public ResponseEntity<String> cancel(@RequestBody AccountDto account) {
         try {
             accountService.cancelAccount(account);
             return new ResponseEntity<>("Cancel oldu", HttpStatus.ACCEPTED);
@@ -39,7 +41,7 @@ public class AccountController {
         }
     }
 @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestBody Account account) {
+    public ResponseEntity<String> delete(@RequestBody AccountDto account) {
     try {
         if (accountService.deleteAccount(account)) {
             return new ResponseEntity<>("Delete oldu", HttpStatus.ACCEPTED);

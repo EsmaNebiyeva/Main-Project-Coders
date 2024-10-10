@@ -8,6 +8,6 @@ import org.example.project.entity.general.BusinessDetails;
 @Data
 @RequiredArgsConstructor
 public class InformationRequest {
-    private BusinessDetails businessDetails;
-    private Address address;
+    private BusinessDetailsDTO businessDetails;
+    private AddressDTO address;
 }

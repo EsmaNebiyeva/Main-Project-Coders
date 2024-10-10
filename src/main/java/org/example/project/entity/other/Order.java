@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -17,8 +18,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Column(unique = true)
-//    private String orderId;
+    @Column(unique = true)
+    private Long orderId;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User cashier;
@@ -30,7 +31,7 @@ public class Order {
     )
     private Set<Product> productsSet=new HashSet<>();
     private LocalDate orderDate= LocalDate.now();
-
+private Long  totalPrice;
     private String paymentMethod;
 //    public void addCourse(Product order) {
 //        this.productsSet.add(order);

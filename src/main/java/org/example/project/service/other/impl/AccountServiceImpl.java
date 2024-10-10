@@ -4,12 +4,16 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Account;
 import org.example.project.exception.OurException;
+import org.example.project.model.AccountDto;
 import org.example.project.repository.other.AccountRepository;
 import org.example.project.service.other.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static org.example.project.model.AccountDto.convertToDto;
+import static org.example.project.model.AccountDto.fromDTOToNormal;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +24,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     @Transactional
     @Override
-    public Account saveAccount(Account account) {
+    public AccountDto saveAccount(AccountDto account3) {
+        Account account = fromDTOToNormal(account3);
         Optional<Account> byId = accountRepository.findByName(account.getName());
         if(byId.isPresent()) {
          Account account1= byId.get();
@@ -29,22 +34,26 @@ public class AccountServiceImpl implements AccountService {
          account1.setPassword(account.getPassword());
          account1.setBirthDate(account.getBirthDate());
          account1.setGender(account.getGender());
-      return accountRepository.save(account1);
+       accountRepository.save(account1);
+      return convertToDto(account1);
     }  else {
-    return accountRepository.save(account);
+     accountRepository.save(account);
+     return convertToDto(account);
 }
     }
 
 
     @Override
-    public Optional<Account> cancelAccount (Account account){
-        return this.accountRepository.findByName(account.getName());
+    public Optional<AccountDto> cancelAccount (AccountDto account){
+         this.accountRepository.findByName(account.getName());
+         return Optional.of(account);
     }
 
     @Transactional
     @Override
-    public boolean deleteAccount(Account account) {
+    public boolean deleteAccount(AccountDto account1) {
         try {
+            Account account = fromDTOToNormal(account1);
             if(accountRepository.existsById(account.getId())) {
                // Thread.sleep(1209600000 );
                 accountRepository.delete(account);

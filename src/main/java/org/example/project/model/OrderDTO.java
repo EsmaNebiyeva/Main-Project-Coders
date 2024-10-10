@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Product;
 import org.example.project.entity.other.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class OrderDTO {
     private LocalDate orderDate=LocalDate.now();
 
     private String paymentMethod;
+    private BigDecimal totalAmount;
 
 
 }

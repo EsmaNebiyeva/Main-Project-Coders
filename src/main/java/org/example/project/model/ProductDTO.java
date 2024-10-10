@@ -22,9 +22,9 @@ public class ProductDTO {
     private String name;
     private String receiptNo;
     private Long order;
-    private Category category;
+    private Long category;
     private String imageUrl;
-    private BigDecimal price;
+    private Long price;
     private Long stock;
     private Long tax;
    private Long discount;
@@ -34,7 +34,7 @@ public  static ProductDTO convertToDto(Product product) {
    productDTO.setId(product.getId());
    productDTO.setName(product.getName());
    productDTO.setReceiptNo(product.getReceiptNo());
-   productDTO.setCategory(product.getCategory());
+   productDTO.setCategory(product.getCategory().getId());
     productDTO.setStock(productDTO.getStock());
 //    productDTO.setOrdersSet(product.getOrdersSet());
     productDTO.setImageUrl(productDTO.getImageUrl());
@@ -54,7 +54,7 @@ public  static ProductDTO convertToDto(Product product) {
         product.setImageUrl(dto.getImageUrl());
         product.setTax(dto.getTax());
         product.setDiscount(dto.getDiscount());
-        product.setCategory(dto.getCategory());
+        product.setCategory(new Category(dto.getCategory()));
         product.setReceiptNo(dto.getReceiptNo());
         product.setTax(dto.getTax());
         product.setDiscount(dto.getDiscount());

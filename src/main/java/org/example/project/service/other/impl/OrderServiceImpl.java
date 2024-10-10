@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -28,21 +29,71 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private final OrderRepository orderRepository;
+    @Autowired
     private final ProductRepository productRepository;
 //alindi
-    @Transactional
-    @Override
-    public Order addOrder(OrderDTO order) {
 
+//        @Transactional
+//        @Override
+//        public Order addOrder(OrderDTO order) {
+//
+//            // Check if order is valid
+//            if (order == null || order.getProductsSet().isEmpty()) {
+//                throw new OurException("Order or products set is invalid.");
+//            }
+//
+//            // Create Order object and set properties
+//            Order orderDTO = new Order();
+//            orderDTO.setProductsSet(order.getProductsSet());
+//            orderDTO.setOrderDate(order.getOrderDate());
+//            orderDTO.setCashier(order.getCashier());
+//            orderDTO.setPaymentMethod(order.getPaymentMethod());
+//
+//            // Calculate total price of products
+//            Long totalPrice = order.getProductsSet().stream()
+//                    .mapToLong(Product::getPrice)
+//                    .sum();
+//
+//            orderDTO.setTotalPrice(totalPrice);
+//
+//            // Optionally: validate products before saving
+//            // Example: If you want to check if all products are valid (e.g., not already ordered)
+//            for (Product product : order.getProductsSet()) {
+//                List<Product> byReceiptNo = productRepository.findByReceiptNo(product.getReceiptNo());
+//                if (byReceiptNo.isEmpty()) {
+//                    throw new OurException("Product with receiptNo " + product.getReceiptNo() + " not found.");
+//                }
+//            }
+//
+//            // Save the order
+//            orderRepository.save(orderDTO);
+//            return orderDTO;
+//        }
+
+    @Transactional
+        @Override
+        public Order addOrder(OrderDTO order) {
         Product product = new Product();
         Order orderDTO = new Order();
         if (order != null) {
-            if (!order.getProductsSet().isEmpty()) {
+            if (!order.getProductsSet().isEmpty() )
 //                orderDTO.setOrderId((order.getOrderId()));
                 orderDTO.setProductsSet(order.getProductsSet());
                 orderDTO.setOrderDate(order.getOrderDate());
                 orderDTO.setCashier(order.getCashier());
                 orderDTO.setPaymentMethod(order.getPaymentMethod());
+                List<Product> productsSet = order.getProductsSet().stream().toList();
+                Long price= 0L;
+                for (Product p : productsSet) {
+                   price=price+ p.getPrice();
+                    System.out.println(price);
+                   if(productRepository.findByReceiptNo(p.getReceiptNo()).isEmpty()){
+                       throw  new OurException("product yoxdu");
+                   }
+                }
+
+
+                orderDTO.setTotalPrice(price);
 
 //              for (Product product1 : order.getProductsSet()) {
 ////                   if(product1!=null){
@@ -66,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 
             }
 
-        }
+
         return orderDTO;
     }
 
@@ -114,17 +165,23 @@ public class OrderServiceImpl implements OrderService {
 //alindi
     @Transactional
     @Override
-    public void deleteOrder(Long id) {
-
+    public boolean deleteOrder(Long id) {
                Optional<Order> byOrderId = orderRepository.findByOrderId(id);
 
                if( byOrderId.isPresent()) {
                   orderRepository.deleteById(id);
                    System.out.println("DATA silindi");
+                   return true;
                }
                else{
-                   throw new OurException("orderId tapilmadi");
+                   return false;
                }
+    }
 
+    @Override
+    public Long getTotalIncome() {
+        LocalDate now = LocalDate.now();
+        LocalDate today = now.minusMonths(1);
+        return orderRepository.getTotalPrice(now, today);
     }
 }

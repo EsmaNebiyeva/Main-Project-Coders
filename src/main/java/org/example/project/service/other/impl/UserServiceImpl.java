@@ -3,7 +3,7 @@ package org.example.project.service.other.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.User;
-import org.example.project.repository.other.UserRepository;
+import org.example.project.repository.other.UsersRepository;
 import org.example.project.service.other.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService {
 @Autowired
-    private final UserRepository userRepository;
+    private final UsersRepository userRepository;
     @Override
     public void update(User user) {
         userRepository.save(user);

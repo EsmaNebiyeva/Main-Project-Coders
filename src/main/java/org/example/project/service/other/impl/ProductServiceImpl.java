@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Product;
 import org.example.project.exception.OurException;
-import org.example.project.model.ProductDTO;
+
 import org.example.project.repository.other.CategoryRepository;
 import org.example.project.repository.other.OrderRepository;
 import org.example.project.repository.other.ProductRepository;
@@ -14,11 +14,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.example.project.model.ProductDTO.convertToDto;
+import static org.apache.logging.log4j.util.Strings.concat;
+
 
 
 @Service
@@ -29,18 +33,25 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 private final CategoryRepository categoryRepository;
 private final OrderRepository orderRepository;
+private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\main\\resources\\static";
     @Transactional
     @Override
     public void addProduct(Product product) {
-        if(product.getCategory() != null) {
-            if(product.getCategory().getId() == null) {
-               categoryRepository.save(product.getCategory());
-            }
-        }
-        String image ="C:/Users/Asus/IdeaProjects/Project/src/main/resources/static/ " +product.getImageUrl();
-        product.setImageUrl(image);
-        productRepository.save(product);
-        System.out.println("DATA elave olundu");
+     try {
+
+            // if (categoryRepository.findByNameAndId(product.getCategory().getName(), product.getCategory().getId()) != null) {
+
+
+                 System.out.println("DATA elave olundu");
+                 productRepository.save(product);
+
+           //  }
+
+     }
+     catch (Exception e) {
+         System.out.println("XETA CATCH");
+     }
+
     }
 
     @Transactional
@@ -65,24 +76,38 @@ private final OrderRepository orderRepository;
 
     @Transactional
     @Override
-    public boolean deleteProductById(Long id) {
-        try {
+    public boolean deleteProductById(Long id) throws OurException {
+
             if (productRepository.existsById(id)) {
-                System.out.println("Delete");
                 productRepository.deleteById(id);
-            } else{
-                System.out.println("Tapilmadi");
+                return true;  // Silmə əməliyyatı uğurlu oldu
+            } else {
+
+                return false;
             }
-        } catch (OurException e) {
-            System.out.println("Our Exception");
-            System.out.println(e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
+
     }
+
+//    @Transactional
+//    @Override
+//    public boolean deleteProductById(Long id) {
+//        try {
+//            if (productRepository.existsById(id)) {
+//                System.out.println("Delete");
+//                productRepository.deleteById(id);
+//            } else{
+//                System.out.println("Tapilmadi");
+//            }
+//        } catch (OurException e) {
+//            System.out.println("Our Exception");
+//            System.out.println(e.getMessage());
+//            return false;
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Transactional
     @Override
@@ -113,24 +138,28 @@ private final OrderRepository orderRepository;
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
+    public Product getProductById(Long id) {
         Product byId = productRepository.findById(id).get();
-        ProductDTO productDTO=new ProductDTO();
+
+
        if(byId!=null) {
-         productDTO = convertToDto(byId);
+
+         byId.setImageUrl(concat(imagePath,byId.getImageUrl()));
        }
-       return productDTO;
+       return byId;
     }
 
     @Override
-    public Page<Product> getProducts(Integer page, Integer size) {
+    public List<Product> getProducts(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findAll(pageable);
+        List<Product> allDistinct = productRepository.findAllDistinct(pageable).getContent();
+        return allDistinct;
     }
 
     @Override
     public List<Product> getProducts() {
-        return productRepository.findAll();
+        List<Product> all = productRepository.findAll();
+        return all;
     }
 
     @Transactional

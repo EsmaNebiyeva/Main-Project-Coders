@@ -1,11 +1,12 @@
 package org.example.project.service.other;
 
 import org.example.project.entity.other.Account;
+import org.example.project.model.AccountDto;
 
 import java.util.Optional;
 
 public interface AccountService {
-    Account saveAccount(Account account);
-    Optional<Account> cancelAccount(Account account);
-    boolean deleteAccount(Account account);
+    AccountDto saveAccount(AccountDto account);
+    Optional<AccountDto> cancelAccount(AccountDto account);
+    boolean deleteAccount(AccountDto account);
 }

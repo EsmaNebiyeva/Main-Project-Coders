@@ -14,7 +14,7 @@ public class Plan {
 
     private String name;
     private Double price;
-    private String duration; // örneğin "1 month", "1 year"
+    private String duration;
 
     // Getters and Setters
 }

@@ -19,7 +19,7 @@ public class AddressDTO {
     private String flat;
     private String streetNumber;
     private String postalCode;
-    private List<UserDTO> users;
+
 
 
     public static AddressDTO convertToDto(Address address) {

@@ -17,9 +17,13 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select a from Order a where a.orderDate<=: localDate  or a.orderDate>=: date")
     Page<Order> findAllBy(Pageable pageable, LocalDate date, LocalDate localDate);
-    @Query("SELECT p FROM Order  p where p.id=:orderId")
+    @Query("SELECT p FROM Order  p where p.orderId=:orderId")
     Optional<Order> findByOrderId(Long orderId);
+    @Query("select sum(p.totalPrice) from Order p where p.orderDate between :date and :now ")
+    Long getTotalPrice(LocalDate now, LocalDate date);
   //  void deleteByOrderId(Long orderId);
+//    @Query("select sum(a.) from Order a w")
+  //  @Query("select p ")
 
 
 }

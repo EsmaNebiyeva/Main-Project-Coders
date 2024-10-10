@@ -1,5 +1,6 @@
 package org.example.project.entity.other;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,16 +17,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String name;
-    @Column(unique = true)
     private String receiptNo;
     private String imageUrl;
-    private BigDecimal price;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Long price;
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
     private Long stock;
@@ -39,6 +41,9 @@ public class Product {
     private Long tax;
     private Long discount;
 
+//    public Set<Order> getOrdersSet() {
+//       ordersSet=new HashSet<>();
+//    }
 
     @Override
     public String toString() {

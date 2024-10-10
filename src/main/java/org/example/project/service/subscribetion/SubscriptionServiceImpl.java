@@ -4,7 +4,7 @@ import org.example.project.entity.other.User;
 import org.example.project.entity.subscribetion.Payment;
 import org.example.project.entity.subscribetion.Plan;
 import org.example.project.entity.subscribetion.Subscription;
-import org.example.project.repository.other.UserRepository;
+import org.example.project.repository.other.UsersRepository;
 import org.example.project.repository.subscribetion.PaymentRepository;
 import org.example.project.repository.subscribetion.PlanRepository;
 import org.example.project.repository.subscribetion.SubscriptionRepository;
@@ -20,7 +20,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         private SubscriptionRepository subscriptionRepository;
 
         @Autowired
-        private UserRepository userRepository;
+        private UsersRepository userRepository;
 
         @Autowired
         private PlanRepository planRepository;

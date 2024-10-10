@@ -25,9 +25,7 @@ public class BusinessDetails {
     //(fetch = FetchType.EAGER)
     private User user;
 
-    public BusinessDetails(String businessEmail){
-        this.businessEmail = businessEmail;
-    }
+
     @Override
     public String toString() {
         return "BusinessDetails{" +

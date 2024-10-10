@@ -7,7 +7,7 @@ import org.example.project.entity.other.UserPermission;
 import org.example.project.exception.OurException;
 import org.example.project.model.UserPermissionDto;
 import org.example.project.repository.other.UserPermissionRepository;
-import org.example.project.repository.other.UserRepository;
+import org.example.project.repository.other.UsersRepository;
 import org.example.project.service.other.UserPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.List;
 public class UserPermissionServiceImpl implements UserPermissionService {
     @Autowired
     private final UserPermissionRepository userPermissionRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository userRepository;
     @Override
     public List<UserPermissionDto> getAllUsers() {
         try {
