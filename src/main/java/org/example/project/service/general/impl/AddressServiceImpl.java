@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
+import static org.example.project.model.AddressDTO.convertToDto;
 import static org.example.project.model.AddressDTO.fromDTOToNormal;
 
 @Service
@@ -20,9 +21,8 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
 
     @Override
-    public Address saveAddress(AddressDTO address2) {
-        Address address = fromDTOToNormal(address2);
-        Optional<Address> addressOptional = addressRepository.findByCity(address.getCity());
+    public AddressDTO saveAddress(String email,Address address) {
+        Optional<Address> addressOptional = addressRepository.findByEmail(email);
             if (addressOptional.isPresent()) {
                 Address address1 = addressOptional.get();
                 address1.setCity(address.getCity());
@@ -31,16 +31,17 @@ public class AddressServiceImpl implements AddressService {
                 address1.setPostalCode(address.getPostalCode());
                 address1.setStreet(address.getStreet());
                 address1.setStreetNumber(address.getStreetNumber());
-                return addressRepository.save(address1);
+                return convertToDto(address1);
             } else {
-                return addressRepository.save(address);
+                Address save1 = addressRepository.save(address);
+                return convertToDto(save1);
             }
     }
 
 
         @Override
-        public Optional<Address> cancelAddress (AddressDTO address){
-            return this.addressRepository.findByCity(address.getCity());
+        public boolean cancelAddress (Address address){
+            return true;
         }
     }
 

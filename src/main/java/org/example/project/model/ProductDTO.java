@@ -16,29 +16,25 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class ProductDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String receiptNo;
-    private Long order;
-    private Long category;
+    private Integer orderofDay;
+    private String category;
     private String imageUrl;
     private Long price;
     private Long stock;
     private Long tax;
-   private Long discount;
-   private List<Order> ordersSet;
+    private Long discount;
 public  static ProductDTO convertToDto(Product product) {
    ProductDTO productDTO = new ProductDTO();
    productDTO.setId(product.getId());
    productDTO.setName(product.getName());
    productDTO.setReceiptNo(product.getReceiptNo());
-   productDTO.setCategory(product.getCategory().getId());
-    productDTO.setStock(productDTO.getStock());
-//    productDTO.setOrdersSet(product.getOrdersSet());
-    productDTO.setImageUrl(productDTO.getImageUrl());
-    productDTO.setPrice(productDTO.getPrice());
+   productDTO.setCategory(product.getCategory().getName());
+    productDTO.setStock(product.getStock());
+    productDTO.setImageUrl(product.getImageUrl());
+    productDTO.setPrice(product.getPrice());
     productDTO.setTax(product.getTax());
     productDTO.setDiscount(product.getDiscount());
     return productDTO;
@@ -51,8 +47,6 @@ public  static ProductDTO convertToDto(Product product) {
         product.setName(dto.getName());
         product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
-        product.setImageUrl(dto.getImageUrl());
-        product.setTax(dto.getTax());
         product.setDiscount(dto.getDiscount());
         product.setCategory(new Category(dto.getCategory()));
         product.setReceiptNo(dto.getReceiptNo());

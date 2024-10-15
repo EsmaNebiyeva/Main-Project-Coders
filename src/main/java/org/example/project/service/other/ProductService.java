@@ -7,16 +7,21 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ProductService {
-    void addProduct(Product product);
-    boolean deleteProduct(Product product);
+    boolean addProduct(Product product);
+    boolean deleteProduct(String product,String email);
     boolean deleteProductById(Long id);
-    Product updateProduct(Long id,Product product);
-    Product getProductById(Long id);
-    List<Product> getProducts(Integer page, Integer size);
+    Product updateProduct(Product product,String email);
+    Product getProductById(String product,String email);
+    Page<Product> getProducts(Integer page, Integer size);
     List<Product> getProducts();
-    Product updateProductWithCancel(Long id, Product product);
-    List<Product> getProductByName(String name);
+    Product updateProductWithCancel( Product product,String email);
+    List<Product> getProductByName(String name,String email);
     Boolean existsProductByReceiptNo(String receiptNo);
-    Long getCategoryCount();
-
+    Long getCategoryCount(String email);
+    Page<Product>  getProductByEmail(String email,Integer page,Integer size);
+    Integer getProductOrderCount(String name,String email);
+    List<Product> getProductByCategory(String orderNo,String email);
+    List<Product > getProductByEmail(String email);
+   // Long countUserPermission(String email);
+   Integer  countProductByEmail(String email);
 }

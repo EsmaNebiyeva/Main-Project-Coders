@@ -5,7 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.example.project.security.auth.AuthenticationRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -91,5 +93,12 @@ public class JwtService {
   private Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     return Keys.hmacShaKeyFor(keyBytes);
+  }
+  public String extractEmail(String token) {
+    return Jwts.parser()
+            .setSigningKey(secretKey)
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();  // Tokenin subject sahəsində email yerləşir
   }
 }

@@ -6,7 +6,8 @@ import org.example.project.model.AccountDto;
 import java.util.Optional;
 
 public interface AccountService {
-    AccountDto saveAccount(AccountDto account);
-    Optional<AccountDto> cancelAccount(AccountDto account);
-    boolean deleteAccount(AccountDto account);
+    AccountDto saveAccount(String email,Account account);
+    boolean cancelAccount(Account account);
+    boolean deleteAccount(String email,Account account);
+    AccountDto getAccount(String email);
 }

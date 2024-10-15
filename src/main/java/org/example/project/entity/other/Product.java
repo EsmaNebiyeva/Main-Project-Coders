@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.RequiredArgsConstructor;
+import org.example.project.security.user.UserDetail;
 
 
 import java.math.BigDecimal;
@@ -22,22 +23,23 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false, unique = true)
     private String receiptNo;
     private String imageUrl;
     private Long price;
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY )//,cascade = CascadeType.REMOVE
+    @JoinColumn(name = "category_id",referencedColumnName = "name")
     private Category category;
     private Long stock;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToMany( mappedBy = "productsSet",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-
-    private Set<Order> ordersSet=new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)//,cascade = CascadeType.REMOVE
+    @JoinColumn(name = "user_email",referencedColumnName = "email")
+    private UserDetail user;
+//qetiyyen acilmir
+//    @ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "productsSet")
+//
+//    private Set<Order> ordersSet=new HashSet<>();
     private Long tax;
     private Long discount;
 

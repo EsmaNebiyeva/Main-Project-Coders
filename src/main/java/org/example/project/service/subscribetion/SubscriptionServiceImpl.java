@@ -1,13 +1,14 @@
 package org.example.project.service.subscribetion;
 
-import org.example.project.entity.other.User;
+
 import org.example.project.entity.subscribetion.Payment;
 import org.example.project.entity.subscribetion.Plan;
 import org.example.project.entity.subscribetion.Subscription;
-import org.example.project.repository.other.UsersRepository;
 import org.example.project.repository.subscribetion.PaymentRepository;
 import org.example.project.repository.subscribetion.PlanRepository;
 import org.example.project.repository.subscribetion.SubscriptionRepository;
+import org.example.project.security.user.UserDetail;
+import org.example.project.security.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         private SubscriptionRepository subscriptionRepository;
 
         @Autowired
-        private UsersRepository userRepository;
+        private UserRepository userRepository;
 
         @Autowired
         private PlanRepository planRepository;
@@ -28,8 +29,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         @Autowired
         private PaymentRepository paymentRepository;
 
-        public Subscription createSubscription(Long userId, Long planId) {
-            Optional<User> user = userRepository.findById(userId);
+        public Subscription createSubscription(Integer userId, Long planId) {
+            Optional<UserDetail> user = userRepository.findById(userId);
             Optional<Plan> plan = planRepository.findById(planId);
 
             if (user.isPresent() && plan.isPresent()) {

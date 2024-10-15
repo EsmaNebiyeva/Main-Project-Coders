@@ -2,7 +2,8 @@ package org.example.project.entity.subscribetion;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.project.entity.other.User;
+
+import org.example.project.security.user.UserDetail;
 
 import java.time.LocalDate;
 
@@ -16,8 +17,8 @@ public class Subscription {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "user_email",referencedColumnName = "email")
+    private UserDetail user;
 
     @ManyToOne
     @JoinColumn(name = "plan_id")

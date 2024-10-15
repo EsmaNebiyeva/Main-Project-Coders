@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.project.security.user.UserDetail;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,14 +21,14 @@ public class Order {
     private Long id;
     @Column(unique = true)
     private Long orderId;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User cashier;
-    @ManyToMany( fetch = FetchType.LAZY, cascade =CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_email",referencedColumnName = "email")
+    private UserDetail user;
+    @ManyToMany( fetch = FetchType.LAZY)
     @JoinTable(
             name = "orders_products", // Ara tablonun ismi
-            joinColumns = @JoinColumn(name = "order_id"), // Öğrenciye referans
-            inverseJoinColumns = @JoinColumn(name = "products_id") // Derse referans
+            joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "orderId"), // Öğrenciye referans
+            inverseJoinColumns = @JoinColumn(name = "products_id", referencedColumnName = "receiptNo") // Derse referans
     )
     private Set<Product> productsSet=new HashSet<>();
     private LocalDate orderDate= LocalDate.now();
@@ -47,7 +48,7 @@ private Long  totalPrice;
         return "Order{" +
                 "id=" + id +
 //              ", orderId='" + orderId +
-                ", cashier=" + cashier +
+                ", cashier=" + user +
                 ", products=" + productsSet +
                 ", orderDate=" + orderDate +
                 ", paymentMethod='" + paymentMethod + '\'' +

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.project.security.user.Role;
 
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,5 +19,4 @@ public class RegisterRequest {
   private String email;
   private String phoneNumber;
   private String password;
-  private Role role;
 }

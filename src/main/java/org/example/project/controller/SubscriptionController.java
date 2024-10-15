@@ -16,7 +16,7 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @PostMapping("/create")
-    public Subscription createSubscription(@RequestParam Long userId, @RequestParam Long planId) {
+    public Subscription createSubscription(@RequestParam Integer userId, @RequestParam Long planId) {
         return subscriptionService.createSubscription(userId, planId);
     }
 

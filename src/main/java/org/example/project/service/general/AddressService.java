@@ -7,7 +7,7 @@ import java.util.Optional;
 
 
 public interface AddressService {
-    Address saveAddress(AddressDTO address);
+    AddressDTO saveAddress(String email,Address address);
 
-    Optional<Address> cancelAddress(AddressDTO address);
+    boolean cancelAddress(Address address);
 }

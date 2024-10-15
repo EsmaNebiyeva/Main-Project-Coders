@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 
 import static org.example.project.security.user.Role.*;
-import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -36,8 +35,11 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("api/account/**","/api/general/*","api/user_permission/add","api/user_permission/getAll").hasAnyRole(SUPER_ADMIN.getRole(), ADMIN.getRole())
-                                .requestMatchers("api/order/**","api/product/**").hasAnyRole(SUPER_ADMIN.getRole(), ADMIN.getRole(),MEMBER.getRole())
+                                .requestMatchers("/api/account/**","/api/general/**","/api/order/**")
+                                .hasAnyRole(MEMBER.getRole(), ADMIN.getRole())
+                                .requestMatchers("api/product/**","/api/category/getByName","/api/user_permission/getAll","/api/user_permission/getAllFirst")
+                                .hasAnyRole( ADMIN.getRole())
+                                .requestMatchers("/api/**").hasRole(SUPER_ADMIN.getRole())
                                 .anyRequest()
                                 .authenticated()
                 )

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.other.User;
+import org.example.project.security.user.UserDetail;
 
 @Entity
 @Data
@@ -21,10 +21,11 @@ public class BusinessDetails {
     @Column(unique = true,updatable = false)
     private String businessEmail;
     private String fax;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private String imageUrl;
+    @OneToOne(fetch = FetchType.LAZY)
     //(fetch = FetchType.EAGER)
-    private User user;
-
+    @JoinColumn(name = "user_email",referencedColumnName = "email")
+    private UserDetail user;
 
     @Override
     public String toString() {
@@ -34,6 +35,7 @@ public class BusinessDetails {
                 ", number='" + number + '\'' +
                 ", businessEmail='" + businessEmail + '\'' +
                 ", fax='" + fax + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

@@ -11,6 +11,10 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    @Query("SELECT p FROM Account  p where upper(p.name)=upper(:name)")
-    Optional<Account> findByName(String name);
+    @Query("SELECT a FROM Account  a where a.userDetail.email=:name")
+    Optional<Account> findByEmail(String name);
+    @Query("select u FROM Account u WHERE u.userDetail.email = :email AND u.email = :useremail")
+    Account findByEmailAndUser( String email,  String useremail);
+    @Query("SELECT a FROM Account  a where a.email=:name")
+    Optional<Account> findByEmailFirst(String name);
 }

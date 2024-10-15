@@ -3,14 +3,17 @@ package org.example.project.security.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserServ {
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
@@ -35,5 +38,19 @@ public class UserService {
 
         // save the new password
         repository.save(user);
+    }
+
+    @Override
+    public UserDetail findByEmail(String email) {
+        if(email != null) {
+            return repository.getByEmail(email);
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserDetail> getAll() {
+        List<UserDetail> all = repository.findAll();
+        return all;
     }
 }

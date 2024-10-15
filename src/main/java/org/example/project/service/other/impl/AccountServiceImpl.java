@@ -22,47 +22,53 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private final AccountRepository accountRepository;
-    @Transactional
-    @Override
-    public AccountDto saveAccount(AccountDto account3) {
-        Account account = fromDTOToNormal(account3);
-        Optional<Account> byId = accountRepository.findByName(account.getName());
-        if(byId.isPresent()) {
-         Account account1= byId.get();
-         account1.setName(account.getName());
-         account1.setEmail(account.getEmail());
-         account1.setPassword(account.getPassword());
-         account1.setBirthDate(account.getBirthDate());
-         account1.setGender(account.getGender());
-       accountRepository.save(account1);
-      return convertToDto(account1);
-    }  else {
-     accountRepository.save(account);
-     return convertToDto(account);
-}
-    }
-
-
-    @Override
-    public Optional<AccountDto> cancelAccount (AccountDto account){
-         this.accountRepository.findByName(account.getName());
-         return Optional.of(account);
-    }
 
     @Transactional
     @Override
-    public boolean deleteAccount(AccountDto account1) {
-        try {
-            Account account = fromDTOToNormal(account1);
-            if(accountRepository.existsById(account.getId())) {
-               // Thread.sleep(1209600000 );
-                accountRepository.delete(account);
-                return true;
-            }
-        } catch (Exception e) {
-            System.out.println("Wrong var");
-            throw new OurException("Data is not found");
+    public AccountDto saveAccount(String email, Account account) {
+        Optional<Account> byId = accountRepository.findByEmail(email);
+        if (byId.isPresent()) {
+            Account account1 = byId.get();
+            account1.setName(account.getName());
+            account1.setEmail(account.getEmail());
+            account1.setPassword(account.getPassword());
+            account1.setBirthDate(account.getBirthDate());
+            account1.setGender(account.getGender());
+
+           return convertToDto(account1);
+        }else {
+            accountRepository.save(account);
+            return convertToDto(account);
         }
-        return false;
+    }
+
+
+
+    @Override
+    public boolean cancelAccount (Account account){
+         return true;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteAccount(String email,Account account) {
+
+            Optional<Account> byEmail = accountRepository.findByEmail(email);
+            if(byEmail.isPresent()) {
+                Account byEmailAndUser = accountRepository.findByEmailAndUser(email, byEmail.get().getEmail());
+                accountRepository.delete(byEmailAndUser);
+                return true;
+            }else {
+                return false;
+            }
+    }
+
+    @Override
+    public AccountDto getAccount(String email) {
+       Account byEmail = accountRepository.findByEmail(email).get();
+       if(byEmail != null) {
+           return convertToDto(byEmail);
+       }
+        return null;
     }
 }

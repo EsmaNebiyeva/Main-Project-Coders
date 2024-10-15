@@ -21,28 +21,31 @@ public class BusinessDetailsServiceImpl implements BusinessDetailsService {
     @Autowired
     private final BusinessDetailsRepository businessDetailsRepository;
     @Override
-    public BusinessDetails saveBusinessDetails(BusinessDetailsDTO businessDetails) {
+    public BusinessDetailsDTO saveBusinessDetails(String email,BusinessDetails businessDetails1) {
 //        businessDetailsRepository.findByBusinessEmail(businessDetails.getBusinessEmail()).map(e -> {
 //            e.setBusinessEmail(businessDetails.getBusinessEmail());
 //            e.setFax(businessDetails.getFax());
 //            e.setStoreName(businessDetails.getStoreName());
 //            return businessDetailsRepository.save(e);
 //        }).orElse(()-> return businessDetailsRepository.save(businessDetails));;
-        BusinessDetails businessDetails1 = fromDTOToNormal(businessDetails);
-        Optional<BusinessDetails> byBusinessEmail = businessDetailsRepository.findByBusinessEmail(businessDetails1.getBusinessEmail());
+
+        Optional<BusinessDetails> byBusinessEmail = businessDetailsRepository.findByEmail(email);
     if (byBusinessEmail.isPresent()) {
         BusinessDetails businessDetails2 = byBusinessEmail.get();
-        businessDetails1.setBusinessEmail(businessDetails.getBusinessEmail());
-        businessDetails1.setStoreName(businessDetails.getStoreName());
-        return businessDetailsRepository.save(businessDetails2);
+        businessDetails2.setBusinessEmail(businessDetails1.getBusinessEmail());
+        businessDetails2.setNumber(businessDetails1.getNumber());
+        businessDetails2.setFax(businessDetails1.getFax());
+        businessDetails2.setStoreName(businessDetails1.getStoreName());
+        return convertToDto(businessDetails2);
     } else{
-        return businessDetailsRepository.save(businessDetails1);
+        BusinessDetails save1 = businessDetailsRepository.save(businessDetails1);
+        return convertToDto(save1);
     }
     }
 
     @Override
-    public Optional<BusinessDetails> cancelBusinessDetails(BusinessDetailsDTO businessDetails) {
+    public boolean cancelBusinessDetails(BusinessDetails businessDetails) {
 
-        return this.businessDetailsRepository.findByBusinessEmail(businessDetails.getBusinessEmail());
+        return true;
     }
 }

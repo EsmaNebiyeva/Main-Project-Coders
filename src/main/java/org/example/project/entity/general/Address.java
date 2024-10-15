@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.other.User;
+
+import org.example.project.security.user.UserDetail;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,8 +24,9 @@ public class Address {
     private String flat;
     private String streetNumber;
     private String postalCode;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<User> users=new HashSet<>();
+    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_email",referencedColumnName = "email")
+    private UserDetail userDetails;
 
     @Override
     public String toString() {
@@ -36,9 +38,11 @@ public class Address {
                 ", flat='" + flat + '\'' +
                 ", streetNumber='" + streetNumber + '\'' +
                 ", postalCode='" + postalCode + '\'' +
+                ", userDetails=" + userDetails +
                 '}';
     }
-//    public Address(String city){
+
+    //    public Address(String city){
 //        this.city = city;
 //    }
 }

@@ -6,7 +6,7 @@ import org.example.project.model.BusinessDetailsDTO;
 import java.util.Optional;
 
 public interface BusinessDetailsService {
-    BusinessDetails saveBusinessDetails(BusinessDetailsDTO businessDetails);
+    BusinessDetailsDTO saveBusinessDetails(String email,BusinessDetails businessDetails);
 
-    Optional<BusinessDetails> cancelBusinessDetails(BusinessDetailsDTO businessDetails);
+    boolean cancelBusinessDetails(BusinessDetails businessDetails);
 }
