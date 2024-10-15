@@ -73,41 +73,43 @@ public class OrderServiceImpl implements OrderService {
 //        }
 @Transactional
 @Override
-public void addOrder(Order order) {
+public boolean addOrder(Order order) {
     if (order == null) {
         System.out.println("Sifariş boşdur");
+        return false;
     }else {
 
         List<Product> products = order.getProductsSet().stream().toList();
+        System.out.println(products);
 
         if (products.isEmpty()) {
             System.out.println("Məhsul siyahısı boşdur");
+            return false;
         } else {
 
             Long totalPrice = 0L;
 
             for (Product product : products) {
-                Product existingProduct = productRepository.findByReceiptNoAndEmail(product.getReceiptNo(),order.getUser().getEmail());
+                Product existingProduct = productRepository.findByReceiptNoAndEmail(product.getReceiptNo(), order.getUser().getEmail());
                 try {
-                 if (existingProduct == null) {
-                    throw  new Exception("data yoxdur");
-                 }
+                    if (existingProduct == null) {
+                        throw new Exception("data yoxdur");
+                    }
                 } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    throw new RuntimeException(e);
 
                 }
 
+                        totalPrice = totalPrice + product.getPrice() + product.getPrice() * product.getTax() - product.getDiscount() * product.getPrice();
 
-                totalPrice =totalPrice+ product.getPrice() + product.getPrice() * product.getTax() - product.getDiscount() * product.getPrice();
+
             }
 
             order.setTotalPrice(totalPrice);
+            orderRepository.save(order);
+            return true;
         }
-        orderRepository.save(order);
 
-
-
-        System.out.println("Sifariş əlavə olundu");
 
     }
 

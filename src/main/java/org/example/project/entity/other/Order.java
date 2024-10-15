@@ -24,13 +24,16 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail user;
+    private String userName;
+    private String place;
+    private String tables;
     @ManyToMany( fetch = FetchType.LAZY)
     @JoinTable(
             name = "orders_products", // Ara tablonun ismi
             joinColumns = @JoinColumn(name = "order_id",referencedColumnName = "orderId"), // Öğrenciye referans
             inverseJoinColumns = @JoinColumn(name = "products_id", referencedColumnName = "receiptNo") // Derse referans
     )
-    private Set<Product> productsSet=new HashSet<>();
+    private List<Product> productsSet;
     private LocalDate orderDate= LocalDate.now();
 private Long  totalPrice;
     private String paymentMethod;

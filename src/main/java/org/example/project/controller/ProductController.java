@@ -268,6 +268,31 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @GetMapping("/getByCategory")
+    public ResponseEntity<List<ProductDTO>> getProductByCategory(HttpServletRequest request, @RequestParam String product) {
+
+            String authorizationHeader = request.getHeader("Authorization");
+
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                String token = authorizationHeader.substring(7);
+                String email = jwtUtil.extractEmail(token);  //
+                List<Product> productById = productService.getProductByCategory(product, email);
+                List<ProductDTO> checkProducts = new ArrayList<>();
+                if (!productById.isEmpty()) {
+                    for (Product product1 : productById) {
+                        ProductDTO productDTO = convertToDto(product1);
+                        productDTO.setOrderofDay(productService.getProductOrderCount(product1.getName(), email));
+                        checkProducts.add(productDTO);
+                    }
+
+                    return new ResponseEntity<>(checkProducts, HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+    }
 }
 
 

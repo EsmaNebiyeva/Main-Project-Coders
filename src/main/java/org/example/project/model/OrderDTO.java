@@ -28,21 +28,21 @@ public class OrderDTO {
     private List<String> receiptNumber;
     private String cashier;
     private List<String> menu;
-private Long price;
-
-
+    private Long price;
+    private String place;
+    private String table;
     private LocalDate orderDate;
- //private List<String> productsName=new ArrayList<>();
     private String paymentMethod;
 
     public static OrderDTO converToDTO(Order order) {
         OrderDTO dto = new OrderDTO();
         dto.orderId = order.getOrderId();
-        dto.cashier = concat(order.getUser().getFirstname()+" ", order.getUser().getLastname());
+        dto.cashier = order.getUserName();
         dto.orderDate=order.getOrderDate();
         dto.paymentMethod = order.getPaymentMethod();
         dto.price=order.getTotalPrice();
-
+        dto.place=order.getPlace();
+        dto.table=order.getTables();
         return dto;
     }
 

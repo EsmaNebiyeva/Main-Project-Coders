@@ -6,10 +6,11 @@ import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface OrderService {
-    void addOrder(Order order);
+    boolean addOrder(Order order);
     Page<Order> getOrders(String email,Integer page, Integer size, String date);
     Order getOrder(String email,Long orderId);
     boolean deleteOrder(String email,Long orderId);
