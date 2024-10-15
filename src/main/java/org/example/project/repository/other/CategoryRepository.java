@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("select c from Category c where c.name=:name and c.id=:id")
      Category findByNameAndId(String name, Long id);
-    @Query("SELECT c FROM Category c WHERE c.name = :name AND c.userDetail.email = :email")
-     Category findByName(String name,String email);
+    @Query("SELECT c FROM Category c WHERE c.name = :name ")
+    Category findByName(String name);
 }

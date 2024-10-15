@@ -17,11 +17,12 @@ public interface ProductService {
     Product updateProductWithCancel( Product product,String email);
     List<Product> getProductByName(String name,String email);
     Boolean existsProductByReceiptNo(String receiptNo);
-    Long getCategoryCount(String email);
+    Long getCategoryCount();
     Page<Product>  getProductByEmail(String email,Integer page,Integer size);
-    Integer getProductOrderCount(String name,String email);
-    List<Product> getProductByCategory(String orderNo,String email);
-    List<Product > getProductByEmail(String email);
+    Integer getProductOrderCount(String name);
+    List<Product> getProductByCategory(String orderNo);
+    List<Product > getProductByEmail();
    // Long countUserPermission(String email);
    Integer  countProductByEmail(String email);
+    Integer getProductOrderCountEmail(String name,String email);
 }

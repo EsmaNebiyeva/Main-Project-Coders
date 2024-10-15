@@ -22,7 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Page<Order> findAllBy(Pageable pageable, LocalDate date, LocalDate localDate);
 //    @Query("select a from Order a  where  (a.orderDate<=: localDate  or a.orderDate>=: date) and a.user.email=:email ")
 //    Page<Order> findAllBy(Pageable pageable, LocalDate date, LocalDate localDate,String email);
-    @Query("SELECT a FROM Order a WHERE (a.orderDate <= :endDate OR a.orderDate >= :startDate) AND a.user.email = :email")
+    @Query("SELECT a FROM Order a WHERE (a.orderDate <= :endDate OR a.orderDate >= :startDate) AND a.user.email = :email ")
     Page<Order> findAllBy(Pageable pageable,  LocalDate startDate,  LocalDate endDate, String email);
     @Query("SELECT a FROM Order a WHERE  a.user.email = :email")
     Page<Order> findAllBy(Pageable pageable,  String email);

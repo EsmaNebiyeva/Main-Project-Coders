@@ -44,8 +44,8 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
     public boolean addProduct(Product product) {
 
       if(product!=null) {
-          Category byName = categoryRepository.findByName(product.getCategory().getName(), product.getUser().getEmail());
-         if(byName!=null) {
+          Category byName = categoryRepository.findByName(product.getCategory().getName());
+          if(byName!=null) {
              product.setCategory(byName);
              System.out.println("DATA elave olundu");
              productRepository.save(product);
@@ -58,6 +58,16 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
 
     }
 
+    public static List<Product> paginate(List<Product> list, int pageNumber, int pageSize) {
+        int fromIndex = (pageNumber - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, list.size());
+
+        if (fromIndex >= list.size() || fromIndex < 0) {
+            return List.of(); // Return empty list if page is out of bounds
+        }
+
+        return list.subList(fromIndex, toIndex);
+    }
     @Transactional
     @Override
     public boolean deleteProduct(String product,String email) {
@@ -129,7 +139,7 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
             if (!byEmail.isEmpty()) {
                 Product ignored = productRepository.findByReceiptNoAndEmail(product.getReceiptNo(), email);
                 if (ignored != null) {
-                    Category byName = categoryRepository.findByName(product.getCategory().getName(), product.getUser().getEmail());
+                    Category byName = categoryRepository.findByName(product.getCategory().getName());
                     if (byName != null) {
                         ignored.setName(product.getName());
                         ignored.setPrice(product.getPrice());
@@ -221,8 +231,8 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
     }
 
     @Override
-    public Long getCategoryCount(String email) {
-        return productRepository.findDistinctCategoryCount(email);
+    public Long getCategoryCount() {
+        return productRepository.findDistinctCategoryCount();
     }
 
     @Override
@@ -233,10 +243,10 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
     }
 
     @Override
-    public Integer getProductOrderCount(String name,String email) {
+    public Integer getProductOrderCount(String name) {
         LocalDate now=LocalDate.now();
         LocalDate today=now.minusDays(1);
-        Integer countNameByOrdersSet = productRepository.findCountNameByOrdersSet(name,today,now,email);
+        Integer countNameByOrdersSet = productRepository.findCountNameByOrdersSet(name,today,now);
         if(countNameByOrdersSet!=null) {
             return countNameByOrdersSet;
         }
@@ -246,8 +256,8 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
     }
 
     @Override
-    public List<Product> getProductByCategory(String orderNo,String email) {
-        List<Product> productsByCategory = productRepository.getProductsByCategory(orderNo,email);
+    public List<Product> getProductByCategory(String orderNo) {
+        List<Product> productsByCategory = productRepository.getProductsByCategory(orderNo);
         if(productsByCategory!=null) {
             return productsByCategory;
         }else{
@@ -256,8 +266,8 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
     }
 
     @Override
-    public List<Product> getProductByEmail(String email) {
-        List<Product> productsByCategory = productRepository.findByEmail(email);
+    public List<Product> getProductByEmail() {
+        List<Product> productsByCategory = productRepository.findAll();
         if(!productsByCategory.isEmpty()) {
             return productsByCategory;
         }else{
@@ -276,6 +286,19 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
         if(i>0) {
             return i;
         }else{
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer getProductOrderCountEmail(String name, String email) {
+        LocalDate now=LocalDate.now();
+        LocalDate today=now.minusDays(1);
+        Integer countNameByOrdersSet = productRepository.findCountNameByOrdersSetEmail(name,today,now,email);
+        if(countNameByOrdersSet!=null) {
+            return countNameByOrdersSet;
+        }
+        else{
             return 0;
         }
     }

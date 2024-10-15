@@ -149,10 +149,14 @@ public class OrderController {
                         res.add(product.getReceiptNo());
                         total=total+product.getPrice()+product.getPrice()*product.getTax()-product.getDiscount()*product.getPrice();
                     }
-                    orderDTO.setReceiptNumber(res);
-                    orderDTO.setMenu(list);
-                    orderDTO.setPrice(total);
-                return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+
+                        orderDTO.setReceiptNumber(res);
+                        orderDTO.setMenu(list);
+                        orderDTO.setPrice(total);
+                        List<Product> list2 = new ArrayList<>();
+
+                        return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+
             }}
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -182,10 +186,12 @@ public class OrderController {
                         res.add(product.getReceiptNo());
                         total=total+product.getPrice()+product.getPrice()*product.getTax()-product.getDiscount()*product.getPrice();
                     }
-                    orderDTO.setReceiptNumber(res);
-                    orderDTO.setMenu(list);
-                    orderDTO.setPrice(total);
-                    orderDTOs.add(orderDTO);
+
+                        orderDTO.setReceiptNumber(res);
+                        orderDTO.setMenu(list);
+                        orderDTO.setPrice(total);
+                        orderDTOs.add(orderDTO);
+
                 }
                 OrderPage orderPage = new OrderPage();
                 orderPage.setOrders(orderDTOs);
@@ -286,7 +292,6 @@ public class OrderController {
     // Update an order
     @PutMapping("/update")
     public ResponseEntity<OrderDTO> updateOrder(HttpServletRequest request, @RequestBody Order order) {
-        try {
             String authorizationHeader = request.getHeader("Authorization");
 
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -306,10 +311,7 @@ public class OrderController {
                     return new ResponseEntity<>(orderDTO, HttpStatus.OK);
                 }
             }
-        } catch (Exception e) {
-            logger.error("Error updating order: {}", e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 

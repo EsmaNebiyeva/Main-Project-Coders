@@ -15,18 +15,18 @@ public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
+    @Column(unique=true)
+    private String subscriptionId;
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail user;
-
-    @ManyToOne
-    @JoinColumn(name = "plan_id")
+    @ManyToOne(fetch = FetchType.LAZY )
+    @JoinColumn(name = "plan_id",referencedColumnName = "name")
     private Plan plan;
-
-    private LocalDate startDate;
+    private LocalDate startDate=LocalDate.now();
     private LocalDate endDate;
-    private boolean active;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     // Getters and Setters
 }

@@ -90,7 +90,7 @@ public boolean addOrder(Order order) {
             Long totalPrice = 0L;
 
             for (Product product : products) {
-                Product existingProduct = productRepository.findByReceiptNoAndEmail(product.getReceiptNo(), order.getUser().getEmail());
+                Product existingProduct = productRepository.findByReceiptNoAndEmail(product.getReceiptNo());
                 try {
                     if (existingProduct == null) {
                         throw new Exception("data yoxdur");
@@ -243,18 +243,28 @@ public boolean addOrder(Order order) {
         List<Order> byEmail = orderRepository.findByEmail(email);
         if (!byEmail.isEmpty()) {
             Order byOrderId = orderRepository.findByOrderIdEmail(order.getOrderId(),email);
+
             if (byOrderId != null) {
                 List<Product> list = order.getProductsSet().stream().toList();
                 Long totalPrice = 0L;
+                boolean b=true;
                 for (Product product : list) {
+                    if(productRepository.findByReceiptNo(product.getReceiptNo())!=null) {
                     totalPrice=totalPrice+product.getPrice()+ product.getPrice() * product.getTax()-product.getPrice()*product.getDiscount() ;
+                }else{
+                        b=false;
+                    }
+                }if(b) {
+                    order.setTotalPrice(totalPrice);
+                    byOrderId.setTotalPrice(order.getTotalPrice());
+                    byOrderId.setProductsSet(order.getProductsSet());
+                    byOrderId.setOrderDate(LocalDate.now());
+                    byOrderId.setPaymentMethod(order.getPaymentMethod());
+                    return byOrderId;
                 }
-                order.setTotalPrice(totalPrice);
-                byOrderId.setTotalPrice(order.getTotalPrice());
-                byOrderId.setProductsSet(order.getProductsSet());
-                byOrderId.setOrderDate(LocalDate.now());
-                byOrderId.setPaymentMethod(order.getPaymentMethod());
-               return byOrderId;
+               else{
+                   return null;
+                }
             }else{
                 return null;
             }

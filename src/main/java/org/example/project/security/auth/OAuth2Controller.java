@@ -24,6 +24,7 @@ import java.security.Principal;
 
 @RequiredArgsConstructor
 
+@RequestMapping("/api/auth/oauth2")
 public class OAuth2Controller {
 //        @Autowired
 //        private final AuthenticationService service;
@@ -61,8 +62,19 @@ public class OAuth2Controller {
 //            return "custom_login";
 //        }
 
+    @GetMapping("/profile")
+    public String profile(OAuth2AuthenticationToken token, Model model) {
+        model.addAttribute("name", token.getPrincipal().getAttribute("name"));
+        model.addAttribute("email", token.getPrincipal().getAttribute("email"));
+        model.addAttribute("photo", token.getPrincipal().getAttribute("picture"));
+        return "user-profile";
+    }
 
-        @RequestMapping("/")
+    @GetMapping("/login")
+    public String login() {
+        return "custom_login";
+    }
+     @RequestMapping("/")
         public String home() {
             return "Welcome!";
         }

@@ -94,8 +94,8 @@ public class UserDetail implements UserDetails {
   private Address address;
   @OneToMany(fetch = FetchType.EAGER)
   private Set<UserPermission> userPermission = new HashSet<>();
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Subscription> subscriptions = new HashSet<>();
+//  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+//  private Set<Subscription> subscriptions = new HashSet<>();
   @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
   //(fetch = FetchType.EAGER)
   private BusinessDetails businessDetails;
@@ -118,7 +118,7 @@ public class UserDetail implements UserDetails {
             ", account=" + account +
             ", address=" + address +
             ", userPermission=" + userPermission +
-            ", subscriptions=" + subscriptions +
+           // ", subscriptions=" + subscriptions +
             ", businessDetails=" + businessDetails +
             ", tokens=" + tokens +
             '}';

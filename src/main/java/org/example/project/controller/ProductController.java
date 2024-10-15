@@ -53,7 +53,7 @@ public class ProductController {
 
             for (Product product : products) {
                 ProductDTO productDTO = convertToDto(product);
-                productDTO.setOrderofDay(productService.getProductOrderCount(product.getName(),email));
+                productDTO.setOrderofDay(productService.getProductOrderCountEmail(product.getName(),email));
                 productDTO.setCategory(product.getCategory().getName());
                 checkProducts.add(productDTO);
             }
@@ -85,7 +85,7 @@ public class ProductController {
                if( productService.addProduct(product)==true){
                    return new ResponseEntity<>("Product added successfully", HttpStatus.CREATED);
                }else{
-                   return new ResponseEntity<>("Product already exists", HttpStatus.CONFLICT);
+                   return new ResponseEntity<>("Product already exists", HttpStatus.BAD_REQUEST);
                }
             } else {
                 return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
@@ -123,23 +123,21 @@ public class ProductController {
     //alindi
     @DeleteMapping("/deleteBy")
     public ResponseEntity<String> deleteProduct(HttpServletRequest request, @RequestParam String product) {
-        try {
             String authorizationHeader = request.getHeader("Authorization");
 
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7);
                 String email = jwtUtil.extractEmail(token);  // E-poçtu çıxarırıq
-                productService.deleteProduct(product, email);
+                boolean b = productService.deleteProduct(product, email);
+                if (b) {
+                    return new ResponseEntity<>("Data deleted successfully", HttpStatus.OK);
 
-                return new ResponseEntity<>("Data deleted successfully", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            //logger.error("Error deleting product by id: {}", e.getMessage(), e);
-            return new ResponseEntity<>("Failed to delete product", HttpStatus.BAD_REQUEST);
-        }
+                } else {
+                    return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+                }
+            } return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
 
     //    @DeleteMapping("/delete")
 //    public ResponseEntity<String> deleteProducts(@RequestBody Product product) {
@@ -165,7 +163,7 @@ public class ProductController {
                 String email = jwtUtil.extractEmail(token);  //
                 Product productById = productService.getProductById(product, email);
                 ProductDTO productDTO = convertToDto(productById);
-                productDTO.setOrderofDay(productService.getProductOrderCount(productById.getName(),email));
+                productDTO.setOrderofDay(productService.getProductOrderCountEmail(productById.getName(),email));
 
                 return new ResponseEntity<>(productDTO, HttpStatus.OK);
             } else {
@@ -189,7 +187,7 @@ public class ProductController {
                 String email = jwtUtil.extractEmail(token);
                 Product updatedProduct = productService.updateProduct(product, email);
                 ProductDTO productDTO = convertToDto(updatedProduct);
-                productDTO.setOrderofDay(productService.getProductOrderCount(updatedProduct.getName(),email));
+                productDTO.setOrderofDay(productService.getProductOrderCountEmail(updatedProduct.getName(),email));
                 return new ResponseEntity<>(productDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -211,7 +209,7 @@ public class ProductController {
                 String email = jwtUtil.extractEmail(token);
                 Product updatedProduct = productService.updateProductWithCancel(product, email);
                 ProductDTO productDTO = convertToDto(updatedProduct);
-                productDTO.setOrderofDay(productService.getProductOrderCount(updatedProduct.getName(),email));
+                productDTO.setOrderofDay(productService.getProductOrderCountEmail(updatedProduct.getName(),email));
                 return new ResponseEntity<>(productDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -257,9 +255,9 @@ public class ProductController {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7);
                 String email = jwtUtil.extractEmail(token);
-                List<Product> productByEmail = productService.getProductByEmail(email);
+                List<Product> productByEmail = productService.getProductByEmail();
                 if (!productByEmail.isEmpty() ) {
-                    Long categoryCount = productService.getCategoryCount(email);
+                    Long categoryCount = productService.getCategoryCount();
                     return new ResponseEntity<>(categoryCount, HttpStatus.OK);
                 }
             }
@@ -276,12 +274,12 @@ public class ProductController {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7);
                 String email = jwtUtil.extractEmail(token);  //
-                List<Product> productById = productService.getProductByCategory(product, email);
+                List<Product> productById = productService.getProductByCategory(product);
                 List<ProductDTO> checkProducts = new ArrayList<>();
                 if (!productById.isEmpty()) {
                     for (Product product1 : productById) {
                         ProductDTO productDTO = convertToDto(product1);
-                        productDTO.setOrderofDay(productService.getProductOrderCount(product1.getName(), email));
+                        productDTO.setOrderofDay(productService.getProductOrderCount(product1.getName()));
                         checkProducts.add(productDTO);
                     }
 
