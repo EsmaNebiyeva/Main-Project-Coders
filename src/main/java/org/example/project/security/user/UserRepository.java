@@ -11,7 +11,7 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface UserRepository extends JpaRepository<UserDetail, Integer> {
   Optional<UserDetail> findByEmail(String email);
-  @Query("select u from UserDetail u where u.email=:email")
+  @Query("select u from UserDetail u where upper(u.email)=upper(:email)")
   UserDetail getByEmail( String email);
 
 }

@@ -1,9 +1,9 @@
 package org.example.project.security.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.project.security.token.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,4 +53,20 @@ public class UserService implements UserServ {
         List<UserDetail> all = repository.findAll();
         return all;
     }
+
+//    @Override
+//    public Boolean logOut(String email,String token) {
+//        Optional<UserDetail> byEmail = repository.findByEmail(email);
+//        if(byEmail.isPresent()) {
+//            List<Token> tokens = byEmail.get().getTokens();
+//            for(Token t : tokens) {
+//                if(t.getToken().equals(token)) {
+//                    tokens.remove(t);
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.File;
+import java.util.Random;
 
 
 @Service
@@ -44,11 +45,27 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper message=new MimeMessageHelper(mimeMessage,true);
         message.setFrom(from);
         message.setTo(email);
-        message.setText("Emaili yenile");
-        message.setSubject("Click here!!!!");
-        FileSystemResource file=new FileSystemResource(new File("C:\\Users\\Asus\\Desktop\\esmer.jpg"));
-        message.addAttachment("esmer.jpg",file);
+        String s = randomString(6);
+        message.setText("Posive APP\n" +
+                "Passwordu dəyişmək  üçün təsdiqləmə kodu:\n"+
+                s);
+        message.setSubject("Posive ");
+        FileSystemResource file=new FileSystemResource(new File("C:\\Users\\Asus\\Downloads\\posiveApp.jpeg"));
+        message.addAttachment("posiveApp.jpg",file);
         mailSender.send(mimeMessage);
         return "Gönderildi";
     }
+
+private String randomString(int len) {
+    Random random = new Random();
+    String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    StringBuilder randomString = new StringBuilder();
+
+    // 10 karakter uzunluğunda rastgele bir String üretmek
+    for (int i = 0; i < len; i++) {
+        randomString.append(alphabet.charAt(random.nextInt(alphabet.length())));
+    }
+    return randomString.toString();
+}
+
 }

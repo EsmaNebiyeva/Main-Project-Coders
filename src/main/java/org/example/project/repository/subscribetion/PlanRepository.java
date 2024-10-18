@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {
-    @Query("select p from Plan p where p.name=:name")
+    @Query("select p from Plan p where upper(p.name)=upper(:name)")
     Plan findByName(String name);
 }

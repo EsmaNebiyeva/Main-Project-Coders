@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface BusinessDetailsRepository extends JpaRepository<BusinessDetails, Long> {
-    @Query("select b from BusinessDetails b where b.user.email=:name")
+    @Query("select b from BusinessDetails b where upper(b.user.email)=upper(:name)")
    Optional<BusinessDetails> findByEmail(String name);
 
 }

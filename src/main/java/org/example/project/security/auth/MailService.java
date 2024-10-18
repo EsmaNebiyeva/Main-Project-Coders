@@ -5,4 +5,5 @@ import jakarta.mail.MessagingException;
 public interface MailService {
     String sendMail(String email);
     String sendMultiMediaMail(String email) throws MessagingException;
+   // Boolean sendVerifyMail(String email) throws MessagingException;
 }

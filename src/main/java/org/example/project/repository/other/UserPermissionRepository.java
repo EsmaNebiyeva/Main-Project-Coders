@@ -15,16 +15,16 @@ import java.util.List;
 @Repository
 @Transactional
 public interface UserPermissionRepository extends JpaRepository<UserPermission, Long> {
-   @Query("select u from UserPermission  u where u.user.email=:email")
+   @Query("select u from UserPermission  u where upper( u.user.email)=upper(:email)")
    List<UserPermission> findByEmail(String email);
    void deleteByEmail(String email);
-   @Query("select distinct p from UserPermission p where p.user.email=:email and p.email<>:email  ")
+   @Query("select distinct p from UserPermission p where upper(p.user.email)=upper(:email) and upper(p.email)<>upper(:email)  ")
    Page<UserPermission> findByEmail(String email, Pageable pageable);
    @Modifying
-   @Query("DELETE FROM UserPermission u WHERE u.user.email = :email AND u.email = :useremail")
+   @Query("DELETE FROM UserPermission u WHERE upper(u.user.email) = upper(:email) AND upper( u.email) = upper(:useremail)")
    void deleteByEmailAndUser( String email,  String useremail);
-   @Query("select count(distinct (u.email)) from UserPermission  u where u.user.email=:email and u.email<>:email")
+   @Query("select count(distinct (u.email)) from UserPermission  u where upper(u.user.email)=upper( :email) and upper( u.email)<>upper(:email)")
    Integer countByEmail(String email);
-   @Query("select distinct p from UserPermission p where p.user.email=:email and p.email=:emailUser ")
+   @Query("select distinct p from UserPermission p where upper(p.user.email)=upper(:email) and upper(p.email)=upper(:emailUser) ")
    UserPermission findByEmailList(String email, String emailUser);
 }

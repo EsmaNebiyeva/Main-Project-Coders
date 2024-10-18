@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    @Query("select a from Address a where a.userDetails.email=:name")
+    @Query("select a from Address a where upper(a.userDetails.email)=upper(:name)")
     Optional<Address> findByEmail(String name);
 
 

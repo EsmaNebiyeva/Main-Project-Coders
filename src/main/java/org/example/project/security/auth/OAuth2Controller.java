@@ -74,15 +74,15 @@ public class OAuth2Controller {
     public String login() {
         return "custom_login";
     }
-     @RequestMapping("/")
-        public String home() {
-            return "Welcome!";
-        }
-
-        @RequestMapping("/user")
-        public Principal user(Principal user) {
-            return user;
-        }
+//     @RequestMapping("/")
+//        public String home() {
+//            return "Welcome!";
+//        }
+//
+//        @RequestMapping("/user")
+//        public Principal user(Principal user) {
+//            return user;
+//        }
 
     }
 

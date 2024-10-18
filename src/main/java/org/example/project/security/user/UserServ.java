@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserServ {
     UserDetail findByEmail(String email);
    List< UserDetail> getAll();
+  // Boolean logOut(String email,String token);
 }

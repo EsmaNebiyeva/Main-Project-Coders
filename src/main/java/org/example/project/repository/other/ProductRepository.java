@@ -20,13 +20,13 @@ import java.util.Set;
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAll(Pageable pageable);
-    @Query("SELECT p FROM Product  p where upper( p.name) like upper(concat(:name,'%')) and p.user.email=:email")
+    @Query("SELECT p FROM Product  p where upper( p.name) like upper(concat(:name,'%')) and upper(p.user.email)=upper(:email)")
     List<Product> findByName(String name,String email);
     @Query("SELECT p FROM Product  p where upper(p.receiptNo)=upper(:receiptNo)")
     Product findByReceiptNo(String receiptNo);//don't use
     @Query("SELECT p FROM Product  p where upper(p.receiptNo)=upper(:receiptNo) ")
     Product findByReceiptNoAndEmail(String receiptNo);
-    @Query("SELECT p FROM Product  p where upper(p.receiptNo)=upper(:receiptNo) and p.user.email=:email")
+    @Query("SELECT p FROM Product  p where upper(p.receiptNo)=upper(:receiptNo) and upper(p.user.email)=upper(:email)")
     Product findByReceiptNoAndEmail(String receiptNo,String email);
     @Query("select p from  Product  p where p.id=:id")
     List<Product> findAllById(Long id);
@@ -38,22 +38,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     BigDecimal findSumStock();
     @Query("select count(distinct p.category) from Product p")
     Long findDistinctCategoryCount();
-    @Query("select p from Product p where p.user.email=:email")
+    @Query("select p from Product p where upper(p.user.email)=upper(:email)")
     Page<Product> findByEmail(String email,Pageable pageable);
-    @Query("select count(p) from Product p where p.user.email=:email")
+    @Query("select count(p) from Product p where upper(p.user.email)=upper(:email)")
     Integer countByEmail(String email);
-    @Query("SELECT COUNT(DISTINCT o) FROM Order o JOIN o.productsSet p WHERE p.name = :name and o.orderDate between :date and :now ")
+    @Query("SELECT COUNT(DISTINCT o) FROM Order o JOIN o.productsSet p WHERE upper(p.name) = upper(:name) and o.orderDate between :date and :now ")
     Integer findCountNameByOrdersSet(String name, LocalDate date ,LocalDate now);
-    @Query("SELECT COUNT(DISTINCT o) FROM Order o JOIN o.productsSet p WHERE p.name = :name and o.orderDate between :date and :now and p.user.email=:email")
+    @Query("SELECT COUNT(DISTINCT o) FROM Order o JOIN o.productsSet p WHERE upper(p.name) = upper(:name) and o.orderDate between :date and :now and upper(p.user.email)=upper(:email)")
     Integer findCountNameByOrdersSetEmail(String name, LocalDate date ,LocalDate now, String email);
-    @Query("select p from Product p where p.category.name=:category ")
+    @Query("select p from Product p where upper(p.category.name)=upper(:category) ")
     List<Product>  getProductsByCategory(String category);//don't use
-    @Query("select p from Product p where p.user.email=:email")
+    @Query("select p from Product p where upper(p.user.email)=upper(:email)")
     List<Product> findByEmail(String email);
     void deleteByReceiptNo(String no);
-    @Query("select count(p) from Product p where p.category.name=:name and p.user.email=:email")
+    @Query("select count(p) from Product p where upper(p.category.name)=upper(:name) and upper(p.user.email)=upper(:email)")
     int findCountCategoryByName(String email,String name);
-    @Query("select c from Category c where c.name=:name")
+    @Query("select c from Category c where upper(c.name)=upper(:name)")
       Category findByName(String name);
 //    @Query("select distinct (p.category.name) from Product p where p.category.name=:name and p.category.userDetail.email=:email")
 //    String  findCategoryByName(String email,String name);

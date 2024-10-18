@@ -221,6 +221,7 @@ public class ProductController {
 
 
     //alindi______________________________________________________________________________________________________________
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/search")
     public ResponseEntity<List<ProductDTO>> searchProducts(HttpServletRequest request, @RequestParam String name) {
         try {

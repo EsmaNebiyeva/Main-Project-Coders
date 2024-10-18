@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
-  @Query("select s from Subscription s where s.user.email=:email")
+  @Query("select s from Subscription s where upper(s.user.email)=upper(:email)")
     List<Subscription> findAllByEmail(String email);
 
 }

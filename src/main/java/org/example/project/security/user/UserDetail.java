@@ -12,10 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.project.entity.general.Address;
 import org.example.project.entity.general.BusinessDetails;
-import org.example.project.entity.other.Account;
-import org.example.project.entity.other.Order;
-import org.example.project.entity.other.Product;
-import org.example.project.entity.other.UserPermission;
+import org.example.project.entity.other.*;
 import org.example.project.entity.subscribetion.Subscription;
 import org.example.project.security.token.Token;
 import org.springframework.security.core.GrantedAuthority;
@@ -92,6 +89,8 @@ public class UserDetail implements UserDetails {
   private Set<Account> account = new HashSet<>();
   @OneToOne(mappedBy = "userDetails",cascade = CascadeType.REMOVE)
   private Address address;
+//  @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+//  private Set<Confirmation> confirmations = new HashSet<>();
   @OneToMany(fetch = FetchType.EAGER)
   private Set<UserPermission> userPermission = new HashSet<>();
 //  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
