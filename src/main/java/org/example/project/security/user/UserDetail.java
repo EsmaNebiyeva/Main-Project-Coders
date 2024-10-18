@@ -63,12 +63,12 @@ public class UserDetail implements UserDetails {
   @NotBlank(message = "this is required")
   private String lastname;
   // @NotBlank(message = "this is required")
-  @Email()
+  @Email(message = "Mail is not valid")
   @Column(unique = true,nullable = false)
   private String email;
   private LocalDateTime created;
   //@NotBlank(message = "this is required")
-  @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
+  @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",message = "Password is not valid")
   @Column(unique = true)
   private String phoneNumber;
   // @NotBlank(message = "Password is mandatory")

@@ -77,9 +77,9 @@ public boolean addOrder(Order order) {
     if (order == null) {
         System.out.println("Sifariş boşdur");
         return false;
-    }else {
+    } else {
 
-        List<Product> products = order.getProductsSet().stream().toList();
+        List<Product> products = order.getProductsSet();
         System.out.println(products);
 
         if (products.isEmpty()) {
@@ -88,9 +88,10 @@ public boolean addOrder(Order order) {
         } else {
 
             Long totalPrice = 0L;
-
+List<Product> a=new ArrayList<>();
             for (Product product : products) {
                 Product existingProduct = productRepository.findByReceiptNoAndEmail(product.getReceiptNo());
+                System.out.println(product.getCategory().getName());
                 try {
                     if (existingProduct == null) {
                         throw new Exception("data yoxdur");
@@ -99,20 +100,21 @@ public boolean addOrder(Order order) {
                     throw new RuntimeException(e);
 
                 }
+                if (product.getCategory().getName().equalsIgnoreCase(existingProduct.getCategory().getName())) {
+                    totalPrice = totalPrice + product.getPrice() + product.getPrice() * product.getTax() - product.getDiscount() * product.getPrice();
+                    order.setTotalPrice(totalPrice);
+                    a.add(product);
+                }else{
+                    return false;
+                }
 
-                        totalPrice = totalPrice + product.getPrice() + product.getPrice() * product.getTax() - product.getDiscount() * product.getPrice();
-
-
-            }
-
-            order.setTotalPrice(totalPrice);
+            }order.setProductsSet(a);
             orderRepository.save(order);
             return true;
         }
 
 
     }
-
 }
 //    @Transactional
 //        @Override

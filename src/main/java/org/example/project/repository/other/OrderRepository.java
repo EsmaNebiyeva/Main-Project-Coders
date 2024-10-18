@@ -36,6 +36,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByEmail(String email);
     @Query("select count(o) from Order o where o.user.email=:email")
     Integer countOrderByEmail(String email);
+    @Query("select o from Order o where o.user.email=:email")
+   List<Order> findByEmailAndReceiptNo(String email);
     void deleteByOrderId(Long id);
 //    @Query("select p.name from Order o join o.productsSet p on o.id = :orderId where o.orderDate=:date")
 //    String countOrderByProductsSet(String product_name, LocalDate date);

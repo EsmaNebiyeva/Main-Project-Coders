@@ -219,8 +219,12 @@ public class OrderController {
                 UserDetail user = userService.findByEmail(email);
                 if (user != null) {
                     order.setUser(user);
-                    orderService.addOrder(order);
-                    return new ResponseEntity<>("Order added successfully", HttpStatus.CREATED);
+                    boolean b = orderService.addOrder(order);
+                    if(b) {
+                        return new ResponseEntity<>("Order added successfully", HttpStatus.CREATED);
+                    } else{
+                        return new ResponseEntity<>("Order or Product is add tue", HttpStatus.NOT_FOUND);
+                    }
                 } else {
                     return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
                 }

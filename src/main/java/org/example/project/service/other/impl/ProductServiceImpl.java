@@ -3,6 +3,7 @@ package org.example.project.service.other.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Category;
+import org.example.project.entity.other.Order;
 import org.example.project.entity.other.Product;
 import org.example.project.exception.OurException;
 
@@ -22,6 +23,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,26 +37,27 @@ import static org.apache.logging.log4j.util.Strings.concat;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
-private final CategoryRepository categoryRepository;
-private final OrderRepository orderRepository;
-private final UserRepository userRepository;
-private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\main\\resources\\static";
-@Transactional
+    private final CategoryRepository categoryRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final String imagePath = "C:\\Users\\Asus\\IdeaProjects\\Project\\src\\main\\resources\\static";
+
+    @Transactional
     @Override
     public boolean addProduct(Product product) {
 
-      if(product!=null) {
-          Category byName = categoryRepository.findByName(product.getCategory().getName());
-          if(byName!=null) {
-             product.setCategory(byName);
-             System.out.println("DATA elave olundu");
-             productRepository.save(product);
-             return true;
-             //  }
-         }
+        if (product != null) {
+            Category byName = categoryRepository.findByName(product.getCategory().getName());
+            if (byName != null) {
+                product.setCategory(byName);
+                System.out.println("DATA elave olundu");
+                productRepository.save(product);
+                return true;
+                //  }
+            }
 
-      }
-          return false;
+        }
+        return false;
 
     }
 
@@ -68,31 +71,58 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
 
         return list.subList(fromIndex, toIndex);
     }
+
     @Transactional
     @Override
-    public boolean deleteProduct(String product,String email) {
-        try {
-            List<Product> byEmail = productRepository.findByEmail(email);
-            if (!byEmail.isEmpty()) {
-                Product byReceiptNo = productRepository.findByReceiptNoAndEmail(product,email);
-                if (byReceiptNo != null) {
-                    productRepository.delete(byReceiptNo);
-                    System.out.println("Silindi");
+    public boolean deleteProduct(String product, String email) {
+        List<Product> byEmail = productRepository.findByEmail(email);
+        if (!byEmail.isEmpty()) {
+            Product byReceiptNo = productRepository.findByReceiptNoAndEmail(product, email);
+            if (byReceiptNo != null) {
+                productRepository.delete(byReceiptNo);
+                List<Order> byEmail1 = orderRepository.findByEmail(email);
+                if (!byEmail1.isEmpty()) {
+                    for (Order order : byEmail1) {
+                        List<Product> productsSet = order.getProductsSet();
+                        int count = 0;
+                        Product a = new Product();
+                        Iterator<Product> iterator = productsSet.iterator();
+                        while (iterator.hasNext()) {
+                            Product p = iterator.next();
+                            if (p.getReceiptNo().equals(byReceiptNo.getReceiptNo())) {
+                                iterator.remove();  // Safe removal
+                                count++;
+
+                            }
+                        }
+                                long l = order.getTotalPrice() - count * (byReceiptNo.getPrice() + byReceiptNo.getPrice() * byReceiptNo.getTax() - byReceiptNo.getPrice() * byReceiptNo.getDiscount());
+                                if (l > 0) {
+                                    order.setTotalPrice(l);
+                                } else {
+                                    if (order.getProductsSet().isEmpty()) {
+                                        orderRepository.deleteByOrderId(order.getOrderId());
+                                    }
+                                    order.setTotalPrice(0l);
+
+
+                                }
+
+                    }
                     return true;
                 }
-            } else {
-                return false;
             }
-        } catch (OurException e) {
-            System.out.println("Our Exception");
-            System.out.println(e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return false;
+        }return false;
     }
+
+
+
+
+
+
+
+
+
+
 
     @Transactional
     @Override
@@ -151,6 +181,7 @@ private final String imagePath="C:\\Users\\Asus\\IdeaProjects\\Project\\src\\mai
                         ignored.setDiscount(product.getDiscount());
                         ignored.setCategory(byName);
                         ignored.setImageUrl(product.getImageUrl());
+
                         return ignored;
                     }
                 }

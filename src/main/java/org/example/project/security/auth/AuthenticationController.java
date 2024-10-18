@@ -5,8 +5,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 
+import org.example.project.security.user.ChangePasswordRequest;
+import org.example.project.security.user.ChangePasswordRequests;
 import org.example.project.service.other.UserPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.ui.Model;
@@ -34,6 +37,18 @@ public class AuthenticationController {
       @RequestBody AuthenticationRequest request
   ) {
       return ResponseEntity.ok(service.authenticate(request));
+  }
+
+  @PostMapping("/changePassword")
+  public ResponseEntity<AuthenticationResponse> passwordChange(
+          @RequestBody ChangePasswordRequests request
+  ) {
+    AuthenticationResponse authenticationResponse = service.changePassword(request);
+    if (authenticationResponse != null) {
+      return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
+    } else{
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
   }
 
   @PostMapping("/refresh-token")

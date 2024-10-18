@@ -10,10 +10,8 @@ import org.example.project.security.config.JwtService;
 import org.example.project.security.token.Token;
 import org.example.project.security.token.TokenRepository;
 import org.example.project.security.token.TokenType;
-import org.example.project.security.user.Role;
+import org.example.project.security.user.*;
 
-import org.example.project.security.user.UserDetail;
-import org.example.project.security.user.UserRepository;
 import org.example.project.service.other.AccountService;
 import org.example.project.service.other.UserPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.apache.logging.log4j.util.Strings.concat;
 
@@ -39,6 +38,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final UserPermissionService userPermissionService;
   private final AccountRepository accountRepository;
+
   public AuthenticationResponse register(RegisterRequest request) {
     var user = UserDetail.builder()
         .firstname(request.getFirstname())
@@ -58,6 +58,26 @@ public class AuthenticationService {
             .refreshToken(refreshToken)
         .build();
   }
+
+  public AuthenticationResponse changePassword(ChangePasswordRequests request) {
+    String email = request.getEmail();
+    Optional<UserDetail> byEmail = repository.findByEmail(email);
+    if(byEmail.isPresent()) {
+      byEmail.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
+      var jwtToken = jwtService.generateToken(byEmail.get());
+      var refreshToken = jwtService.generateRefreshToken(byEmail.get());
+      revokeAllUserTokens(byEmail.get());
+      saveUserToken(byEmail.get(), jwtToken);
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    }else{
+      return null;
+    }
+  }
+
+
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
