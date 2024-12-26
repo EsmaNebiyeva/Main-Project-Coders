@@ -1,7 +1,6 @@
 package org.example.project.security.user;
 
-import jakarta.persistence.*;
-import lombok.Data;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public enum Role {
-    SUPER_ADMIN("SUPER ADMIN"),
+    SUPER_ADMIN("SUPER_ADMIN"),
     ADMIN("ADMIN"),
     MEMBER("MEMBER");
 

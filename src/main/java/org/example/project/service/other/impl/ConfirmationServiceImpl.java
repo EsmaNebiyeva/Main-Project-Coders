@@ -6,7 +6,7 @@ import org.example.project.entity.other.Confirmation;
 import org.example.project.repository.other.ConfirmationRepository;
 import org.example.project.security.user.UserDetail;
 import org.example.project.security.user.UserRepository;
-import org.example.project.security.user.UserService;
+
 import org.example.project.service.other.ConfirmationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

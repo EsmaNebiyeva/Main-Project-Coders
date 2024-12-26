@@ -9,8 +9,14 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="plans")
-public class Plan {
 
+public class Plan {
+    public Plan(String name) {
+        this.name = name;
+    }
+public Plan(){
+    
+}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

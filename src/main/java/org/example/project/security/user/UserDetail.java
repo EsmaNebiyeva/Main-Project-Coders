@@ -5,25 +5,26 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.project.entity.general.Address;
-import org.example.project.entity.general.BusinessDetails;
+
 import org.example.project.entity.other.*;
-import org.example.project.entity.subscribetion.Subscription;
+
 import org.example.project.security.token.Token;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static org.apache.logging.log4j.util.Strings.concat;
+
 
 @Data
 @Builder
@@ -31,7 +32,7 @@ import static org.apache.logging.log4j.util.Strings.concat;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserDetail implements UserDetails {
     public UserDetail(String email) {
         this.email = email;
@@ -65,11 +66,14 @@ public class UserDetail implements UserDetails {
   private String email;
   private LocalDateTime created;
   //@NotBlank(message = "this is required")
-  @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",message = "Password is not valid")
+  @Pattern(regexp = "^\\+?[0-9]{1,4}?[\\s-]?\\(?[0-9]{3}\\)?[\\s-]?[0-9]{3}[\\s-]?[0-9]{4}$", 
+  message = "Phone number is not valid") 
   @Column(unique = true)
   private String phoneNumber;
+  private String imageUrl;
+  private String source;
   // @NotBlank(message = "Password is mandatory")
-  @Size(min = 6, message = "Password must be at least 6 characters")
+//Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$",message = "Password is not valid")  
   private String password;
  // @OneToMany(fetch = FetchType.EAGER)
 //  @JoinTable(
@@ -79,27 +83,41 @@ public class UserDetail implements UserDetails {
 //  )
     @Enumerated(EnumType.STRING)
    private Role role;
-//  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//  //(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//  private Set<Product> products = new HashSet<>();
-//  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//  //(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//  private Set<Order> orders = new HashSet<>();
-  @OneToMany(mappedBy = "userDetail", cascade = CascadeType.REMOVE)
-  private Set<Account> account = new HashSet<>();
-  @OneToOne(mappedBy = "userDetails",cascade = CascadeType.REMOVE)
-  private Address address;
-//  @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
-//  private Set<Confirmation> confirmations = new HashSet<>();
-  @OneToMany(fetch = FetchType.EAGER)
-  private Set<UserPermission> userPermission = new HashSet<>();
-//  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//  private Set<Subscription> subscriptions = new HashSet<>();
-  @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
-  //(fetch = FetchType.EAGER)
-  private BusinessDetails businessDetails;
+  // @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+  // //(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   
+  // private Set<Product> products = new HashSet<>();
+  // @OneToMany(mappedBy = "user")
+  // //(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+  // private Set<Order> orders = new HashSet<>();
+  // @OneToMany(mappedBy = "userDetail")
+
+  // private Set<Account> account = new HashSet<>();
+  // @OneToOne(mappedBy = "userDetails")
+
+  // private Address address;
+
+   @OneToMany(mappedBy = "user")
+  private Set<Confirmation> confirmations = new HashSet<>();
+ // @OneToMany(mappedBy = "user")
+
+  // private Set<UserPermission> userPermission = new HashSet<>();
+  // @OneToMany(mappedBy = "user")
+
+  // private Set<Subscription> subscriptions = new HashSet<>();
+  // @OneToOne(mappedBy = "user")
+
+  // private BusinessDetails businessDetails;
   @OneToMany(mappedBy = "user")
+
   private List<Token> tokens;
+//    @OneToOne(mappedBy = "user")
+//
+//    private Setting setting;
+  // @OneToOne(mappedBy = "user")
+  // @JsonBackReference
+  // private Setting setting;
 
   @Override
   public String toString() {
@@ -108,17 +126,10 @@ public class UserDetail implements UserDetails {
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
             ", email='" + email + '\'' +
-            ", created=" + created +
             ", phoneNumber='" + phoneNumber + '\'' +
             ", password='" + password + '\'' +
             ", role=" + role +
-           // ", products=" + products +
-          //  ", orders=" + orders +
-            ", account=" + account +
-            ", address=" + address +
-            ", userPermission=" + userPermission +
-           // ", subscriptions=" + subscriptions +
-            ", businessDetails=" + businessDetails +
+            ", imageUrl=" + imageUrl +
             ", tokens=" + tokens +
             '}';
   }

@@ -2,7 +2,6 @@ package org.example.project.repository.general;
 
 import jakarta.transaction.Transactional;
 import org.example.project.entity.general.Address;
-import org.example.project.entity.general.BusinessDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

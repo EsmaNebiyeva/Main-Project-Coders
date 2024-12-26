@@ -1,24 +1,21 @@
 package org.example.project.entity.other;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import lombok.RequiredArgsConstructor;
+
 import org.example.project.security.user.UserDetail;
 
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +25,14 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String receiptNo;
     private String imageUrl;
-    private Long price;
-    @ManyToOne(fetch = FetchType.LAZY )//,cascade = CascadeType.REMOVE
+    private Double price;
+    private String description;
+    @ManyToOne(fetch = FetchType.EAGER )//,cascade = CascadeType.REMOVE
     @JoinColumn(name = "category_id",referencedColumnName = "name")
     private Category category;
-    private Long stock;
-    @ManyToOne(fetch = FetchType.LAZY)//,cascade = CascadeType.REMOVE
+    private Double stock;
+    private Double size;
+    @ManyToOne(fetch = FetchType.EAGER)//,cascade = CascadeType.REMOVE
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail user;
 //qetiyyen acilmir
@@ -46,7 +45,15 @@ public class Product {
 //    public Set<Order> getOrdersSet() {
 //       ordersSet=new HashSet<>();
 //    }
+public Product() {
+    this.receiptNo = generateReceiptNo();
+}
 
+private String generateReceiptNo() {
+    long timestamp = System.currentTimeMillis();  // Millisaniye cinsinden zaman damgası
+    int random = (int) (Math.random() * 0.0001);    // Benzersiz bir değer için rastgele bir sayı
+    return timestamp+""+random;               // Zaman ve rastgele sayıyı birleştiriyoruz
+}
     @Override
     public String toString() {
         return "Product{" +
@@ -59,6 +66,7 @@ public class Product {
 //                ", user=" + user +
                 ", tax=" + tax +
                 ", discount=" + discount +
+                ", description=" + description +
                 '}';
     }
 

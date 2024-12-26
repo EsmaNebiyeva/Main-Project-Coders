@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.example.project.security.user.UserDetail;
 
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Data
@@ -24,10 +23,12 @@ public class Address {
     private String flat;
     private String streetNumber;
     private String postalCode;
-    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail userDetails;
-
+    public Address(UserDetail user){
+        this.userDetails=user;
+    }
     @Override
     public String toString() {
         return "Address{" +

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.project.security.user.Role;
+
 
 
 @Data
@@ -14,8 +14,7 @@ import org.example.project.security.user.Role;
 @NoArgsConstructor
 public class RegisterRequest {
 
-  private String firstname;
-  private String lastname;
+  private String fullName;
   private String email;
   private String phoneNumber;
 

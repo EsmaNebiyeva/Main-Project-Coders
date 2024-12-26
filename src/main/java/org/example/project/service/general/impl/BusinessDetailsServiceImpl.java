@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static org.example.project.model.BusinessDetailsDTO.convertToDto;
-import static org.example.project.model.BusinessDetailsDTO.fromDTOToNormal;
+// import static org.example.project.model.BusinessDetailsDTO.fromDTOToNormal;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +36,7 @@ public class BusinessDetailsServiceImpl implements BusinessDetailsService {
         businessDetails2.setNumber(businessDetails1.getNumber());
         businessDetails2.setFax(businessDetails1.getFax());
         businessDetails2.setStoreName(businessDetails1.getStoreName());
+        businessDetails2.setImageUrl(businessDetails1.getImageUrl());
         return convertToDto(businessDetails2);
     } else{
         BusinessDetails save1 = businessDetailsRepository.save(businessDetails1);
@@ -43,9 +44,25 @@ public class BusinessDetailsServiceImpl implements BusinessDetailsService {
     }
     }
 
+
+
+    
     @Override
     public boolean cancelBusinessDetails(BusinessDetails businessDetails) {
 
         return true;
+    }
+
+
+
+
+    @Override
+    public BusinessDetailsDTO getBusinessDetails(String email) {
+        Optional<BusinessDetails> byBusinessEmail = businessDetailsRepository.findByEmail(email);
+    if (byBusinessEmail.isPresent()) {
+        BusinessDetails businessDetails2 = byBusinessEmail.get();
+        return convertToDto(businessDetails2);
+    }
+    return null;
     }
 }

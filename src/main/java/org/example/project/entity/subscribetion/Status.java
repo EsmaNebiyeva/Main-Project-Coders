@@ -1,6 +1,6 @@
 package org.example.project.entity.subscribetion;
 
-import lombok.Data;
+
 import lombok.RequiredArgsConstructor;
 
 

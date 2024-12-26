@@ -1,6 +1,7 @@
 package org.example.project.entity.other;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,8 @@ public class UserPermission {
     private LocalDateTime created;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_email",referencedColumnName = "email")
+    @JsonManagedReference
     private UserDetail user;
 }

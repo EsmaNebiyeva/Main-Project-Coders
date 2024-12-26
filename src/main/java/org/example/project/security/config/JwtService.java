@@ -5,9 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.example.project.security.auth.AuthenticationRequest;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -42,30 +42,32 @@ public class JwtService {
 
   public String generateToken(
       Map<String, Object> extraClaims,
-      UserDetails userDetails
-  ) {
+      UserDetails userDetails) {
     return buildToken(extraClaims, userDetails, jwtExpiration);
   }
 
   public String generateRefreshToken(
-      UserDetails userDetails
-  ) {
+      UserDetails userDetails) {
     return buildToken(new HashMap<>(), userDetails, refreshExpiration);
   }
 
   private String buildToken(
-          Map<String, Object> extraClaims,
-          UserDetails userDetails,
-          long expiration
-  ) {
+      Map<String, Object> extraClaims,
+      UserDetails userDetails,
+      long expiration) {
     return Jwts
-            .builder()
-            .setClaims(extraClaims)
-            .setSubject(userDetails.getUsername())
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + expiration))
-            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-            .compact();
+        .builder()
+        .setClaims(extraClaims)
+        .setSubject(userDetails.getUsername())
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + expiration))
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        .compact();
+  }
+
+  public String generateTokenGoogle(
+      UserDetails userDetails,long jwtExpiration) {
+    return buildToken(new HashMap<>(), userDetails, jwtExpiration);
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -94,11 +96,31 @@ public class JwtService {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
     return Keys.hmacShaKeyFor(keyBytes);
   }
+
   public String extractEmail(String token) {
     return Jwts.parser()
-            .setSigningKey(secretKey)
-            .parseClaimsJws(token)
-            .getBody()
-            .getSubject();  // Tokenin subject sahəsində email yerləşir
+        .setSigningKey(secretKey)
+        .parseClaimsJws(token)
+        .getBody()
+        .getSubject(); // Tokenin subject sahəsində email yerləşir
   }
+  public String createJwtToken(String username) {
+    return Jwts.builder()
+        .setSubject(username) // Sets the subject as the username
+        .setIssuedAt(new Date()) // Issue time
+        .setExpiration(new Date(System.currentTimeMillis() +refreshExpiration)) // Expiry time
+        .signWith(getSignInKey()) // Secure signing key
+        .compact();
+}
+public boolean isJwt(String token) {
+  try {
+      Jwts.parserBuilder()
+          .setSigningKey(getSignInKey()) // JWT'nin imza anahtarı
+          .build()
+          .parseClaimsJws(token);
+      return true;
+  } catch (Exception e) {
+      return false; // JWT değilse ya da geçersizse.
+  }
+}
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/subscriptions")
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
 public class SubscriptionController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class SubscriptionController {
             String email = jwtService.extractEmail(token);
             UserDetail user = userService.findByEmail(email);
             if(user != null) {
-                subscription.setUser(user);
+                subscription.setUserEmail(email);
                 SubscriptionDTO subscriptionDTO = subscriptionService.saveSubscription(subscription);
                 return new ResponseEntity<>(subscriptionDTO, HttpStatus.CREATED);
             }else{

@@ -1,13 +1,13 @@
 package org.example.project.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.example.project.entity.other.Order;
-import org.example.project.entity.other.Product;
+// import lombok.AllArgsConstructor;
+// import lombok.Data;
+// import org.example.project.entity.other.Order;
+// import org.example.project.entity.other.Product;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+// import java.util.List;
+// import java.util.Map;
+// import java.util.stream.Collectors;
 
 
 //

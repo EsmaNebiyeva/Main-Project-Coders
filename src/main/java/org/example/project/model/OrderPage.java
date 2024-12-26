@@ -3,8 +3,7 @@ package org.example.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.other.Order;
-import org.example.project.entity.other.Product;
+
 
 import java.util.List;
 
@@ -14,4 +13,6 @@ import java.util.List;
 public class OrderPage {
     private List<OrderDTO> orders;
     private int countOrders;
+    private Double sales;
+    private List<String> cashiers;
 }

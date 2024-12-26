@@ -3,21 +3,18 @@ package org.example.project.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.other.Category;
+
 import org.example.project.entity.other.Order;
-import org.example.project.entity.other.Product;
 
-import org.example.project.security.user.UserDetail;
+import org.example.project.repository.other.TablesRepository;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
-import static org.thymeleaf.util.StringUtils.concat;
+import java.util.List;
+
 
 
 @Data
@@ -28,13 +25,16 @@ public class OrderDTO {
     private List<String> receiptNumber;
     private String cashier;
     private List<String> menu;
-    private Long price;
+    private List<ProductDTO> menus;
+    private List<String> size;
+    private Double price;
     private String place;
-    private String table;
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
     private String paymentMethod;
+    private List<String> tables;
+  
 
-    public static OrderDTO converToDTO(Order order) {
+    public static OrderDTO converToDTO(Order order,TablesRepository tablesRepository) {
         OrderDTO dto = new OrderDTO();
         dto.orderId = order.getOrderId();
         dto.cashier = order.getUserName();
@@ -42,10 +42,38 @@ public class OrderDTO {
         dto.paymentMethod = order.getPaymentMethod();
         dto.price=order.getTotalPrice();
         dto.place=order.getPlace();
-        dto.table=order.getTables();
+
+        List<String> tablessses=new ArrayList<>();
+        List<String> table2 = order.getTables();
+
+        if(table2!=null){
+        for(String ad: table2){
+        if(ad!=null){
+            tablessses.add(ad);
+        } }}
+        dto.setTables(tablessses);
         return dto;
     }
+    public static OrderDTO converToDTOs(Order order) {
+        OrderDTO dto = new OrderDTO();
+        dto.orderId = order.getOrderId();
+        dto.cashier = order.getUserName();
+        dto.orderDate=order.getOrderDate();
+        dto.paymentMethod = order.getPaymentMethod();
+        dto.price=order.getTotalPrice();
+        dto.place=order.getPlace();
 
+        List<String> tablessses=new ArrayList<>();
+        List<String> table2 = order.getTables();
+
+        if(table2!=null){
+        for(String ad: table2){
+        if(ad!=null){
+            tablessses.add(ad);
+        } }}
+        dto.setTables(tablessses);
+        return dto;
+    }
 //
 // public static Product fromDTOToNormal(ProductDTO dto) {
 //  Product product = new Product();

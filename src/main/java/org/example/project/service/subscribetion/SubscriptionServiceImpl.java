@@ -34,10 +34,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
     @Override
-    public SubscriptionDTO saveSubscription( Subscription subscription) {
+    public SubscriptionDTO saveSubscription ( Subscription subscription) {
         Plan byName = planRepository.findByName(subscription.getPlan().getName());
         if (byName != null) {
-            subscription.setPlan(byName);
+            Optional<UserDetail> byEmail = userRepository.findByEmail(subscription.getUserEmail());
+            if(byEmail.isPresent()){
+                subscription.setPlan(byName);
             subscription.setStatus(Status.SUCCESS);
             if(subscription.getPlan().getDuration().equalsIgnoreCase("YEAR")) {
                 subscription.setEndDate(subscription.getStartDate().plusYears(1));
@@ -47,10 +49,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 subscription.setEndDate(subscription.getStartDate().plusWeeks(1));
             }
             Subscription save = subscriptionRepository.save(subscription);
-            return convertToDTO(save);
+            return convertToDTO(save,byName.getPrice());
         }else{
            return null;
         }
+    }return null;
 
     }
 
@@ -59,10 +62,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<Subscription> subscriptionList = subscriptionRepository.findAllByEmail(email);
         if (subscriptionList != null) {
             List<SubscriptionDTO> subscriptionDTOList = new ArrayList<>();
-            for (Subscription subscription : subscriptionList) {
-                SubscriptionDTO subscriptionDTO = convertToDTO(subscription);
-                subscriptionDTOList.add(subscriptionDTO);
-            }
+            // for (Subscription subscription : subscriptionList) {
+            //     // SubscriptionDTO subscriptionDTO = convertToDTO(subscription);
+            //     // subscriptionDTOList.add(subscriptionDTO);
+            // }
             return subscriptionDTOList;
         } else{
             return List.of();
@@ -75,14 +78,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
        if(!subscriptionList.isEmpty()){
            List<SubscriptionDTO> subscriptionDTOList = new ArrayList<>();
         for (Subscription subscription : subscriptionList) {
+            Plan byName = planRepository.findByName(subscription.getPlan().getName());
             LocalDate endDate = subscription.getEndDate();
             LocalDate now = LocalDate.now();
             if (endDate.isBefore(now) || endDate.isEqual(now)) {
                 subscription.setStatus(Status.EXPIRED);
-                SubscriptionDTO subscriptionDTO = convertToDTO(subscription);
+                SubscriptionDTO subscriptionDTO = convertToDTO(subscription,byName.getPrice());
                 subscriptionDTOList.add(subscriptionDTO);
             } else{
-                SubscriptionDTO subscriptionDTO = convertToDTO(subscription);
+                SubscriptionDTO subscriptionDTO = convertToDTO(subscription,byName.getPrice());
                 subscriptionDTOList.add(subscriptionDTO);
             }
         }

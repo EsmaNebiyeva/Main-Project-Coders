@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static org.example.project.model.AddressDTO.convertToDto;
-import static org.example.project.model.AddressDTO.fromDTOToNormal;
+// import static org.example.project.model.AddressDTO.fromDTOToNormal;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +42,17 @@ public class AddressServiceImpl implements AddressService {
         @Override
         public boolean cancelAddress (Address address){
             return true;
+        }
+
+
+        @Override
+        public AddressDTO findAddress(String email) {
+            Optional<Address> addressOptional = addressRepository.findByEmail(email);
+            if (addressOptional.isPresent()) {
+                Address address1 = addressOptional.get();
+                return convertToDto(address1);
+            }
+            return null;
         }
     }
 

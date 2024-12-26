@@ -1,15 +1,22 @@
 package org.example.project.security.user;
 
 import lombok.RequiredArgsConstructor;
-import org.example.project.security.token.Token;
+import org.example.project.model.UserDTO;
+import org.example.project.repository.general.SettingRepository;
+import org.example.project.repository.other.AccountRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+
+import static org.example.project.model.UserDTO.convertToUserDto;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +26,10 @@ public class UserService implements UserServ {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final UserRepository repository;
+    @Autowired
+    private final SettingRepository settingRepository;
+    @Autowired
+    private final AccountRepository accountRepository;
 
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
@@ -54,6 +65,26 @@ public class UserService implements UserServ {
         return all;
     }
 
+    @Override
+    public UserDTO getByEmail(String email) {
+        if(email != null) {
+            UserDetail byEmail = repository.getByEmail(email);
+            UserDTO userDTO = convertToUserDto(byEmail,settingRepository,accountRepository,settingRepository);
+            return userDTO;
+        }
+        return null;
+    }
+ @Override
+ public Boolean getUserByEmail(String email){
+    if(email != null) {
+        UserDetail byEmail = repository.getByEmail(email);
+       if(byEmail!=null){
+        return true;
+       }
+        return false;
+    }
+    return null;
+ }
 //    @Override
 //    public Boolean logOut(String email,String token) {
 //        Optional<UserDetail> byEmail = repository.findByEmail(email);
@@ -68,5 +99,20 @@ public class UserService implements UserServ {
 //        }
 //        return false;
 //    }
-
+@Override
+@Transactional
+public Boolean deleteByEmail(String email){
+    repository.deleteByEmail(email);
+    return true;
+}
+public void processOAuthPostLogin(String email) {
+    Optional<UserDetail> existUser = repository.findByEmail(email);
+     if(!existUser.isPresent()){
+    if (existUser == null) {
+        UserDetail newUser = new UserDetail();
+        newUser.setEmail(email);
+        repository.save(newUser);        
+    }
+}
+}
 }

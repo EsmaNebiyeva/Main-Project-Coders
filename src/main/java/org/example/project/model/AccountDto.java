@@ -3,7 +3,7 @@ package org.example.project.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
-import org.example.project.entity.general.Address;
+
 import org.example.project.entity.other.Account;
 
 import java.util.Date;
@@ -12,10 +12,13 @@ import java.util.Date;
 public class AccountDto {
 
     private String name;
+    
     private String password;
     private String phoneNumber;
     private String email;
-
+private Date birthDate;
+    private String gender;
+private String imageUrl;
     public AccountDto(String name, String password, String gender) {
         this.name = name;
         this.password = password;
@@ -25,9 +28,7 @@ public class AccountDto {
     public AccountDto() {
     }
 
-    private Date birthDate;
-    private String gender;
-private String image;
+    
 
     public static AccountDto convertToDto(Account address) {
         AccountDto dto = new AccountDto();
@@ -37,7 +38,7 @@ private String image;
         dto.setEmail(address.getEmail());
         dto.setPassword(address.getPassword());
         dto.setPhoneNumber(address.getPhone());
-        dto.setImage(address.getImage());
+        dto.setImageUrl(address.getImage());
         return dto;
     }
 
@@ -50,7 +51,7 @@ private String image;
         dto.setEmail(account.getEmail());
         dto.setPassword(account.getPassword());
         dto.setPhone(account.getPhoneNumber());
-        dto.setImage(account.getImage());
+        dto.setImage(account.getImageUrl());
         return dto;
     }
 }

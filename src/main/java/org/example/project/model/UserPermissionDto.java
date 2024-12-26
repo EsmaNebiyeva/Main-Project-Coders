@@ -2,18 +2,19 @@ package org.example.project.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.example.project.entity.other.UserPermission;
+
 import org.example.project.security.user.Role;
+import org.example.project.security.user.UserDetail;
 
 import java.time.LocalDateTime;
 
 @Data
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@AllArgsConstructor
 public class UserPermissionDto {
 
     private String username;
@@ -21,22 +22,28 @@ public class UserPermissionDto {
     private LocalDateTime created;
     @Enumerated
     private Role role;
-
-//    public static UserPermissionDto toDto(User user) {
-//        UserPermissionDto userPermissionDto = new UserPermissionDto();
-//        userPermissionDto.setId(user.getId());
-//        userPermissionDto.setUsername(user.getUsername());
-//        userPermissionDto.setEmail(user.getEmail());
-//        userPermissionDto.setRole(user.getAccessType());
-//        userPermissionDto.setCreated(user.getSignUpDate());
-//        return userPermissionDto;
-//    }
-    public static UserPermission toEntity(UserPermissionDto userPermissionDto) {
-        UserPermission user = new UserPermission();
-        user.setUsername(userPermissionDto.getUsername());
-        user.setEmail(userPermissionDto.getEmail());
-        user.setCreated(userPermissionDto.getCreated());
-        user.setRole(userPermissionDto.getRole());
-        return user;
+    public UserPermissionDto(String email, LocalDateTime created, Role role, String username) {
+        this.email = email;
+        this.created = created;
+        this.role = role;
+        this.username = username;
     }
+
+   public static UserPermissionDto toDto(UserDetail user) {
+       UserPermissionDto userPermissionDto = new UserPermissionDto();
+    
+       userPermissionDto.setUsername(user.getUsername());
+       userPermissionDto.setEmail(user.getEmail());
+       userPermissionDto.setRole(user.getRole());
+       userPermissionDto.setCreated(user.getCreated());
+       return userPermissionDto;
+   }
+    //public static UserDetail toEntity(UserPermissionDto userPermissionDto) {
+        // UserDetail user = new UserPermission();
+        // user.setUsername(userPermissionDto.getUsername());
+        // user.setEmail(userPermissionDto.getEmail());
+        // user.setCreated(userPermissionDto.getCreated());
+        // user.setRole(userPermissionDto.getRole());
+        // return user;
+  //  }
 }

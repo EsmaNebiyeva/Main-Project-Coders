@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.project.security.user.UserDetail;
 
+
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,11 +18,11 @@ public class Confirmation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail user;
     private String randomPassword;
-    private LocalDateTime expireDate=LocalDateTime.now().plusMinutes(30);
+    private LocalDateTime expireDate=LocalDateTime.now().plusMinutes(1);
 
 //    public Confirmation(UserDetail user, String randomPassword) {
 //        this.user= user;

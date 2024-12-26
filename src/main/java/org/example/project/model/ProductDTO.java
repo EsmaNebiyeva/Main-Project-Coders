@@ -1,15 +1,14 @@
 package org.example.project.model;
 
-import jakarta.persistence.*;
+
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.project.entity.other.Category;
-import org.example.project.entity.other.Order;
+
 import org.example.project.entity.other.Product;
 
-import java.math.BigDecimal;
-import java.util.List;
+
 
 
 @Data
@@ -22,10 +21,11 @@ public class ProductDTO {
     private Integer orderofDay;
     private String category;
     private String imageUrl;
-    private Long price;
-    private Long stock;
+    private Double price;
+    private Double stock;
     private Long tax;
     private Long discount;
+    private String description;
 public  static ProductDTO convertToDto(Product product) {
    ProductDTO productDTO = new ProductDTO();
    productDTO.setId(product.getId());
@@ -37,6 +37,7 @@ public  static ProductDTO convertToDto(Product product) {
     productDTO.setPrice(product.getPrice());
     productDTO.setTax(product.getTax());
     productDTO.setDiscount(product.getDiscount());
+    productDTO.setDescription(product.getDescription());
     return productDTO;
 }
 
@@ -52,6 +53,7 @@ public  static ProductDTO convertToDto(Product product) {
         product.setReceiptNo(dto.getReceiptNo());
         product.setTax(dto.getTax());
         product.setDiscount(dto.getDiscount());
+        product.setDescription(dto.getDescription());
         return product;
 
 }

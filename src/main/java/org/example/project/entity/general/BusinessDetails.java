@@ -18,7 +18,7 @@ public class BusinessDetails {
     private Long id;
     private String storeName;
     private String number;
-    @Column(unique = true,updatable = false)
+    @Column(unique = true)
     private String businessEmail;
     private String fax;
     private String imageUrl;
@@ -26,6 +26,11 @@ public class BusinessDetails {
     //(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_email",referencedColumnName = "email")
     private UserDetail user;
+
+    public BusinessDetails(UserDetail user){
+        this.user=user;
+    }
+
 
     @Override
     public String toString() {
