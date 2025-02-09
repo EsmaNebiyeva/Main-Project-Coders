@@ -3,8 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!src/main/resources/application.yml
-!src/main/java/org/example/project/security/config/SecurityConfiguration.java
+src/main/resources/application.yml
+src/main/java/org/example/project/security/config/SecurityConfiguration.java
 ### STS ###
 .apt_generated
 .classpath
