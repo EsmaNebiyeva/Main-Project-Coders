@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/subscriptions")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
 public class SubscriptionController {
 
     @Autowired

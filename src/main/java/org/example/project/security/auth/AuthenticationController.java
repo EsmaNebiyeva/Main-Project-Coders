@@ -29,7 +29,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
 public class AuthenticationController {
 
   @Autowired

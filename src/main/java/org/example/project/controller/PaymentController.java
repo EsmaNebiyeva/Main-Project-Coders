@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/payment")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
 public class PaymentController {
      @Autowired
     private final MailService mailService;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/login")
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
 public class OAuth2Controller {
     @Autowired
 

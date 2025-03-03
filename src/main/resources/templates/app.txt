@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Project
+    password: 12345
+    username: postgres
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+  data:
+    rest:
+      base-path: C:\Users\Asus\IdeaProjects\Project\src\main\resources\static
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            client-id: "${GOOGLE_CLIENT_ID}"
+            client-secret: "${GOOGLE_CLIENT_SECRET}"
+            client-name: google
+            scope:
+            - email
+            - profile
+            - openid
+        provider:
+          google:
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: My email
+    password:   My app-specific password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+application:
+  security:
+    jwt:
+      secret-key:XXXXXXXXXXXXXXXXXXXXXX
+      expiration: 8640000000 # a day
+      refresh-token:
+        expiration: 6048000000 # 7 days

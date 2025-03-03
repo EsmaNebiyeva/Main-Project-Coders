@@ -32,7 +32,7 @@ import static org.example.project.model.ProductDTO.convertToDto;
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
 public class ProductController {
 
     //private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -343,6 +343,31 @@ EmailNotDTO activity2 = emailNotService.getActivity(email);
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
     }
+    // @GetMapping("/getByCategory")
+    // public ResponseEntity<List<ProductDTO>> getProductByCategories(HttpServletRequest request,Strin) {
+
+    //         String authorizationHeader = request.getHeader("Authorization");
+
+    //         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+    //             // String token = authorizationHeader.substring(7);
+    //             // String email = jwtUtil.extractEmail(token);  //
+    //             List<Product> productById = productService.getProductByCategory();
+    //             List<ProductDTO> checkProducts = new ArrayList<>();
+    //             if (!productById.isEmpty()) {
+    //                 for (Product product1 : productById) {
+    //                     ProductDTO productDTO = convertToDto(product1);
+    //                     productDTO.setOrderofDay(productService.getProductOrderCount(product1.getName()));
+    //                     checkProducts.add(productDTO);
+    //                 }
+
+    //                 return new ResponseEntity<>(checkProducts, HttpStatus.OK);
+    //             }else{
+    //                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //             }
+    //         } else {
+    //             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    //         }
+    // }
 
 }
 

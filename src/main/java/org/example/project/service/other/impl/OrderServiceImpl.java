@@ -125,11 +125,18 @@ public class OrderServiceImpl implements OrderService {
                         throw new RuntimeException(e);
                     }
                     if (existingProduct.getCategory().getName() != null) {
+                        if(existingProduct.getDiscount()==null){
+                             
+                        totalPrice = totalPrice + existingProduct.getPrice()
+                        + (existingProduct.getPrice() * existingProduct.getTax() * 0.01)
+                        - (0 * existingProduct.getPrice() * 0.01);
+                a.add(existingProduct);
+                        }else{
                         totalPrice = totalPrice + existingProduct.getPrice()
                                 + (existingProduct.getPrice() * existingProduct.getTax() * 0.01)
                                 - (existingProduct.getDiscount() * existingProduct.getPrice() * 0.01);
                         a.add(existingProduct);
-                    } else {
+                    } }else {
                         return null;
                     }
                 }
