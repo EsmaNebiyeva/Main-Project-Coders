@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Project
+    password: "${POSTGRES_PASSWORD}"
+    username: "${POSTGRES_USER}"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
+  application:
+    security:
+      jwt:
+        secret-key: "${JWT_SECRET_KEY}"
+        expiration: 8640000000
+        refresh-token:
+          expiration: 6048000000
