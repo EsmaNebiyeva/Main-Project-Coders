@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/category")
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 @RequiredArgsConstructor()
 public class CategoryController {
     @Autowired

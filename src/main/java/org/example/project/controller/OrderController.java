@@ -41,7 +41,7 @@ import static org.example.project.model.ProductDTO.convertToDto;
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
-@CrossOrigin(origins = { "http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 public class OrderController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
@@ -125,10 +125,15 @@ public class OrderController {
                     for (Product product : order.getProductsSet()) {
                         imageList.add(convertToDto(product));
                         res.add(product.getReceiptNo());
+                        if(product.getDiscount()==null){
+                            total = total + product.getPrice()
+                            + (product.getPrice() * product.getTax() - 0* product.getPrice())
+                                    * 0.01;
+                        }else{
                         total = total + product.getPrice()
                                 + (product.getPrice() * product.getTax() - product.getDiscount() * product.getPrice())
                                         * 0.01;
-
+                        }
                     }
                     List<String> collect = order.getProductsSet().stream()
                             .collect(Collectors.groupingBy(e -> e.getReceiptNo(), Collectors.counting()))

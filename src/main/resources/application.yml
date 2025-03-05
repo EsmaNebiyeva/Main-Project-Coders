@@ -1,22 +1,123 @@
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/Project
+#     password: "${POSTGRES_PASSWORD}"
+#     username: "${POSTGRES_USER}"
+#   main:
+#     allow-bean-definition-overriding: true
+#     allow-circular-references: true
+#   jpa:
+#     hibernate:
+#       ddl-auto: update
+#     show-sql: true
+    
+#   data:
+#     rest:
+#       base-path: C:\Users\Asus\IdeaProjects\Project\src\main\resources\static
+#   security:
+#     oauth2:
+#       client:
+#         registration:
+#           google:
+            
+           
+#             client-id: "${GOOGLE_CLIENT_ID}"
+#             client-secret: "${GOOGLE_CLIENT_SECRET}"
+#             client-name: google
+#             scope:
+#             - email
+#             - profile
+#             - openid
+#         provider:
+#           google:
+#             token-uri: https://oauth2.googleapis.com/token
+#             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+#   mail:
+#     host: smtp.gmail.com
+#     port: 587
+#     username: "${MAIL_USERNAME}"
+#     password: "${  # Your app-specific password}"
+#     properties:
+#       mail:
+#         smtp:
+#           auth: true
+#           starttls:
+#             enable: true
+# application:
+#   security:
+#     jwt:
+#       secret-key: "${JWT_SECRET_KEY}"
+#       expiration: 8640000000 # a day
+#       refresh-token:
+#         expiration: 6048000000 # 7 days
+# # app:
+# #  cors:
+# #    allowedOrigins:
+# #        http://localhost:4444
+# #        https://your-production-domain.com
+# # hibernate
+# #  transaction.
+# #     jta.platform=org.hibernate.service.jta.platform.internal.NoJtaPlatform
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/Project
-    password: "${POSTGRES_PASSWORD}"
-    username: "${POSTGRES_USER}"
+    password: 12345
+    username: postgres
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-  
+    
+  data:
+    rest:
+      base-path: C:\Users\Asus\IdeaProjects\Project\src\main\resources\static
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            #http://possive.vercel.app/home
+            #http://localhost:8080/login/oauth2/code/google
+            #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
+            client-id: "${GOOGLE_CLIENT_ID}"
+            client-secret: "${GOOGLE_CLIENT_SECRET}"
+            client-name: google
+            scope:
+            - email
+            - profile
+            - openid
+        provider:
+          google:
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
   mail:
     host: smtp.gmail.com
     port: 587
-    username: "${MAIL_USERNAME}"
-    password: "${MAIL_PASSWORD}"
-  application:
-    security:
-      jwt:
-        secret-key: "${JWT_SECRET_KEY}"
-        expiration: 8640000000
-        refresh-token:
-          expiration: 6048000000
+    username: esmanebiyeva25@gmail.com
+    password: wgeb ohnn zuoe ezdk  # Your app-specific password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 8640000000 # a day
+      refresh-token:
+        expiration: 6048000000 # 7 days
+# app:
+#  cors:
+#    allowedOrigins:
+#        http://localhost:4444
+#        https://your-production-domain.com
+# hibernate
+#  transaction.
+#     jta.platform=org.hibernate.service.jta.platform.internal.NoJtaPlatform

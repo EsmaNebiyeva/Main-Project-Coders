@@ -32,7 +32,7 @@ import static org.example.project.model.ProductDTO.convertToDto;
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 public class ProductController {
 
     //private static final Logger logger = LoggerFactory.getLogger(ProductController.class);

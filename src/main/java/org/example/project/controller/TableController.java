@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/tables")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 public class TableController {
     @Autowired
     private final TablesService tabservice;

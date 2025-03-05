@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("api/notifications")
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 @RequiredArgsConstructor()
 public class NotificationsController {
     @Autowired

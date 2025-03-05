@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/general")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/"})
+@CrossOrigin(origins = {"http://localhost:4444", "https://posive.huseyn.site/","https://posive.vercel.app/"})
 //ALindiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
 public class BusinessDetailsController {
     @Autowired
